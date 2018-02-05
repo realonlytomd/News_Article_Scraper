@@ -2,9 +2,14 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Scraping With Mongoose</title>
+    <title>Scrape Articles Using Mongoose</title>
     <style>
-      body { background-color: #F2F6D0 }
+      body {
+        background-image: url("assets/img/cityback.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      
       #wrapper {
         width: 960px;
         margin-left: auto;
@@ -15,7 +20,7 @@
         display: inline-block;
         overflow: auto;
         width: 60%;
-        height: 700px;
+        height: 440px;
       }
       #notes {
         float: right;
@@ -24,7 +29,7 @@
       textarea, input {
         display: block;
         width: 100%;
-        background-color: #FCF5C7;
+        background-color: #e6e2eb;
       }
       input {
         height: 36px;
@@ -38,8 +43,8 @@
   </head>
   <body>
     <div id="wrapper">
-      <h1>Note Scraper</h1>
-      <h2><i>If you can do this...the homework should be no problem.</i></h2>
+      <h1>Scraped from The Verge</h1>
+      <h2><i>Click on an article's text below to make a note.</i></h2>
       <div id="articles"></div>
       <div id="notes"></div>
     </div>
