@@ -122,6 +122,26 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 
+// Route for deleting an Article's associated Note
+app.delete("/articles/:id", function(req, res) {
+  // delete the note and pass the req.body to the entry
+  db.Note.remove(req.body)
+    .then(function(dbNote) {
+      // If a Note was deleted successfully, find the Article with an `_id` equal to `req.params.id`. Update the Article to show the note is deleted.
+      // { new: true } tells the query to return the updated User
+      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+    })
+    .then(function(dbArticle) {
+      // If we were able to successfully update an Article, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
