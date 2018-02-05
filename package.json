@@ -1,7 +1,7 @@
 {
   "name": "news_article_scraper",
   "version": "1.0.0",
-  "description": "This app scrapes articles from the New York Times, allows the user to make a note on individual\r articles, view those notes later, and then delete the notes or the articles if they choose.",
+  "description": "This app scrapes articles from The Verge, allows the user to make a note on individual\r articles, view those notes later, and then delete the notes or the articles if they choose.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
