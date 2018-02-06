@@ -1,12 +1,18 @@
-// Grab the articles as a json
-$.getJSON("/articles", function(data) {
+//Perform the scrape by clicking the scrape button
+$(document).on("click", "#scrape", function() {
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  })
+  // Get the articles as a json
+  $.getJSON("/articles", function(data) {
   // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "</p><a href='" + data[i].link + "' target='_blank'>" + data[i].link + "</a>");
-  }
+    for (var i = 0; i < data.length; i++) {
+    // Display the information on the page
+      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "</p><a href='" + data[i].link + "' target='_blank'>" + data[i].link + "</a>");
+    }
+  });
 });
-
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
