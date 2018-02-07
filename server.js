@@ -143,6 +143,20 @@ app.delete("/articles/:id", function(req, res) {
     });
 });
 
+// Route for getting a specific Article by title, and then deleting it
+app.delete("/articles/:title", function(req, res) {
+  // Using the title passed in the title parameter, and make a query that finds the matching one in the db
+  db.Article.remove({ title: req.params.title })
+    // .then(function(dbArticle) {
+    //   // If successful, find an Article with the given id, send it back to the client
+    //   res.json(dbArticle);
+    // })
+    .catch(function(err) {
+      // but if an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
