@@ -3,32 +3,30 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
 
+// make port ready for deployment on heroku as well as local
 var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
 
-// Configure middleware
 
-// Use morgan logger for logging requests
+//  morgan logger for logging requests
 app.use(logger("dev"));
-// Use body-parser for handling form submissions
+//  body-parser for handling form submissions
 app.use(bodyParser.urlencoded({ extended: false }));
-// Use express.static to serve the public folder as a static directory
+//  express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
 // By default mongoose uses callbacks for async queries, we're setting it to use promises (.then syntax) instead
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
+// set up for deploying on heroku and developing local
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsReader";
 mongoose.connect(MONGODB_URI);
 
@@ -36,7 +34,7 @@ mongoose.connect(MONGODB_URI);
 
 // the GET route for scraping The Verge's website
 app.get("/scrape", function(req, res) {
-  // First, grab the body of the html  of the site with request
+  // First, grab the body of the html of the site with request
   axios.get("https://www.theverge.com/").then(function(response) {
     // Then, load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
@@ -147,10 +145,10 @@ app.delete("/articles/:id", function(req, res) {
 app.delete("/articles/:title", function(req, res) {
   // Using the title passed in the title parameter, and make a query that finds the matching one in the db
   db.Article.remove({ title: req.params.title })
-    // .then(function(dbArticle) {
-    //   // If successful, find an Article with the given id, send it back to the client
-    //   res.json(dbArticle);
-    // })
+    .then(function(dbArticle) {
+      // If successful, find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
     .catch(function(err) {
       // but if an error occurred, send it to the client
       res.json(err);

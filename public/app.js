@@ -118,18 +118,18 @@ $(document).on("click", "#deleteArticle", function() {
     url: "/articles/" + thisTitle
   })
     // need to relist the articles without the deleted one
-    .then(function() {
-      $.getJSON("/articles", function(data) {
-        // For each one
-          for (var i = 0; i < data.length; i++) {
-          // Display the information on the page
-            $("#articles").append("<p data-id='" + 
-            data[i]._id + "'>" + 
-            data[i].title + "</p><button data-id='" + 
-            data[i]._id + "' id='deleteArticle'>Delete Article</button><a href='" + 
-            data[i].link + "' target='_blank'>" + 
-            data[i].link + "</a>");
-          }
-        });
-    });
+    // .then(function() {
+    //   $.getJSON("/articles", function(data) {
+    //     // For each one
+    //       for (var i = 0; i < data.length; i++) {
+    //       // Display the information on the page
+    //         $("#articles").append("<p data-id='" + 
+    //         data[i]._id + "'>" + 
+    //         data[i].title + "</p><button data-id='" + 
+    //         data[i]._id + "' id='deleteArticle'>Delete Article</button><a href='" + 
+    //         data[i].link + "' target='_blank'>" + 
+    //         data[i].link + "</a>");
+    //       }
+    //     });
+    // });
 });
