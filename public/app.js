@@ -8,7 +8,14 @@ $(document).on("click", "#scrape", function() {
 
 // List the scraped articles by clicking the List Articles button
 $(document).on("click", "#listArticles", function() {
-// Get the articles as a json
+
+  // A test needs to be added here 
+  // to see if there are repeats in the list of articles
+  // Add a counter so that a current version of (data) can be
+  // compared to the incoming version of (data).
+  // If a title is the same, skip over that set of data (i), and test next one.
+
+  // Get the articles as a json
   $.getJSON("/articles", function(data) {
   // For each one
     for (var i = 0; i < data.length; i++) {
@@ -59,9 +66,9 @@ $(document).on("click", "p", function() {
     });
 });
 
-// When you click the Save Note button
+// When the Save Note button is clicked
 $(document).on("click", "#saveNote", function() {
-  // Grab the id associated with the article from the submit button
+  // Get the id associated with the article
   var thisId = $(this).attr("data-id");
 
   // Run a POST request to change the note, using what's entered in the inputs
@@ -116,21 +123,21 @@ $(document).on("click", "#deleteArticle", function() {
   // Run a DELETE request to delete the article
   $.ajax({
     method: "DELETE",
-    url: "/articles/" + thisTitle
+    url: "/articles/test/" + thisTitle
   })
-    // need to relist the articles without the deleted one
-    // .then(function() {
-    //   $.getJSON("/articles", function(data) {
-    //     // For each one
-    //       for (var i = 0; i < data.length; i++) {
-    //       // Display the information on the page
-    //         $("#articles").append("<p data-id='" + 
-    //         data[i]._id + "'>" + 
-    //         data[i].title + "</p><button data-id='" + 
-    //         data[i]._id + "' id='deleteArticle'>Delete Article</button><a href='" + 
-    //         data[i].link + "' target='_blank'>" + 
-    //         data[i].link + "</a>");
-    //       }
-    //     });
-    // });
+    //need to relist the articles without the deleted one
+    .then(function() {
+      $.getJSON("/articles/test", function(data) {
+        // For each one
+          for (var i = 0; i < data.length; i++) {
+          // Display the information on the page
+            $("#articles").append("<p data-id='" + 
+            data[i]._id + "'>" + 
+            data[i].title + "</p><button data-id='" + 
+            data[i]._id + "' id='deleteArticle'>Delete Article</button><a href='" + 
+            data[i].link + "' target='_blank'>" + 
+            data[i].link + "</a>");
+          }
+        });
+    });
 });
