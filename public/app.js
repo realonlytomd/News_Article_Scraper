@@ -1,4 +1,4 @@
-//Perform the scrape by clicking the scrape button
+//Perform the scrape by clicking the Scrape button
 $(document).on("click", "#scrape", function() {
   $.ajax({
     method: "GET",
@@ -6,6 +6,7 @@ $(document).on("click", "#scrape", function() {
   })
 });
 
+// List the scraped articles by clicking the List Articles button
 $(document).on("click", "#listArticles", function() {
 // Get the articles as a json
   $.getJSON("/articles", function(data) {
