@@ -23,7 +23,7 @@ $(document).on("click", "#listArticles", function() {
       $("#articles").append("<p data-id='" + 
       data[i]._id + "'>" + 
       data[i].title + "</p><button data-title='" + 
-      data[i].title + "' id='deleteArticle'>Delete Article</button><a href='" + 
+      data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
       data[i].link + "' target='_blank'>" + 
       data[i].link + "</a>");
     }
@@ -99,7 +99,7 @@ $(document).on("click", "#saveNote", function() {
 $(document).on("click", "#deleteNote", function() {
   // Grab the id associated with the article
   var thisId = $(this).attr("data-id");
-
+  console.log(thisId);
   // Run a DELETE request to delete the note
   $.ajax({
     method: "DELETE",
@@ -116,9 +116,14 @@ $(document).on("click", "#deleteNote", function() {
 });
 
 // When the Delete Article button is clicked
-$(document).on("click", "#deleteArticle", function() {
+$(document).on("click", ".deleteArticle", function() {
+  //empty out the articles section in order to repopulate with the current list of articles
+  //after the proper one is deleted.
+  $("#articles").empty();
   // Grab the title associated with the article
   var thisTitle = $(this).attr("data-title");
+
+  console.log(thisTitle);
 
   // Run a DELETE request to delete the article
   $.ajax({
@@ -127,14 +132,18 @@ $(document).on("click", "#deleteArticle", function() {
   })
     //need to relist the articles without the deleted one
     .then(function() {
-      $.getJSON("/articles/test", function(data) {
+      //empty out the articles section in order to repopulate with the current list of articles
+      //without the recently deleted one.
+     
+      $.getJSON("/articles", function(data) {
         // For each one
+        console.log(data);
           for (var i = 0; i < data.length; i++) {
           // Display the information on the page
             $("#articles").append("<p data-id='" + 
             data[i]._id + "'>" + 
-            data[i].title + "</p><button data-id='" + 
-            data[i]._id + "' id='deleteArticle'>Delete Article</button><a href='" + 
+            data[i].title + "</p><button data-title='" + 
+            data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
             data[i].link + "' target='_blank'>" + 
             data[i].link + "</a>");
           }

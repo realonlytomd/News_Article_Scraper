@@ -125,7 +125,7 @@ app.post("/articles/:id", function(req, res) {
 // Route for deleting an Article's associated Note
 app.delete("/articles/:id", function(req, res) {
   // delete the note and pass the req.body to the entry
-  db.Note.remove(req.body)
+  db.Note.deleteOne({ _id: req.params.id })
     .then(function(dbNote) {
       // If a Note was deleted successfully, 
       // the following is much like saving a note
@@ -143,18 +143,20 @@ app.delete("/articles/:id", function(req, res) {
 
 // Route for getting a specific Article by title, and then deleting it
 app.delete("/articles/test/:title", function(req, res) {
-//app.delete("/articles/:title", function(req, res) {
-  // Using the title passed in the title parameter, and make a query that finds the matching one in the db
-  db.Article.remove({ title: req.params.title })
-    .then(function(dbArticle) {
-      // If successful, give the list without the given title, send it back to the client
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // but if an error occurred, send it to the client
-      res.json(err);
-    });
-});
+    // Using the title passed in the title parameter, and make a query that finds the matching one in the db
+    db.Article.deleteOne({ title: req.params.title })
+      .then(function(dbArticle) {
+      // I might add this next line because it was use above. currently not getting the new list with
+      //  currently there.
+        //return db.Article.findOneAndUpdate({ test: req.params.test }, { new: true });
+      // If successful, give the list without the given title, send it back to the client 
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // but if an error occurred, send it to the client
+        res.json(err);
+      });
+  });
 
 // Start the server
 app.listen(PORT, function() {
