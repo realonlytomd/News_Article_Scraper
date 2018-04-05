@@ -123,7 +123,7 @@ $(document).on("click", ".deleteArticle", function() {
   // Grab the title associated with the article
   var thisTitle = $(this).attr("data-title");
 
-  console.log(thisTitle);
+  console.log("this Title is: " + thisTitle);
 
   // Run a DELETE request to delete the article
   $.ajax({
@@ -132,7 +132,7 @@ $(document).on("click", ".deleteArticle", function() {
   })
     //need to relist the articles without the deleted one
     .then(function() {
-      //empty out the articles section in order to repopulate with the current list of articles
+      //repopulate with the current list of articles
       //without the recently deleted one.
      
       $.getJSON("/articles", function(data) {

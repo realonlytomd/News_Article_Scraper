@@ -38,12 +38,10 @@ app.get("/scrape", function(req, res) {
   axios.get("https://www.theverge.com/").then(function(response) {
     // Then, load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-
     // then grab the h2's with the appropriate class, and build the title and associated links:
     $("h2.c-entry-box--compact__title").each(function(i, element) {
       // Save an empty result object
       var result = {};
-
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
         .children("a")
@@ -51,23 +49,26 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-
-      // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function(dbArticle) {
-          // View the added result in the console
-          console.log(dbArticle);
-        })
-        .catch(function(err) {
-          // If an error occurred, send it to the client
-          return res.json(err);
-        });
+      console.log("result.title is: " + result.title);
+      console.log("result.link is: " + result.link); 
+      // Create a new Article in the db using the `result` object built from scraping
+      // But only create the new Article in the db if it doesn't already exist
+        
+          db.Article.create(result)
+            .then(function(dbArticle) {
+              // View the added result in the console
+              console.log("dbArticle is: " + dbArticle);
+            })
+            .catch(function(err) {
+              // If an error occurred, send it to the client
+              return res.json(err);
+            });
+        
+      });
     });
-
     // If successful, send a message to the client
     res.send("Scrape Complete");
   });
-});
 
 // Route for getting all of the Articles from the db
 app.get("/articles", function(req, res) {
@@ -144,11 +145,9 @@ app.delete("/articles/:id", function(req, res) {
 // Route for getting a specific Article by title, and then deleting it
 app.delete("/articles/test/:title", function(req, res) {
     // Using the title passed in the title parameter, and make a query that finds the matching one in the db
+    console.log("this is the title of the doc I want to delete: " + req.params.title);
     db.Article.deleteOne({ title: req.params.title })
       .then(function(dbArticle) {
-      // I might add this next line because it was use above. currently not getting the new list with
-      //  currently there.
-        //return db.Article.findOneAndUpdate({ test: req.params.test }, { new: true });
       // If successful, give the list without the given title, send it back to the client 
         res.json(dbArticle);
       })
