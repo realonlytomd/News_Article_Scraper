@@ -9,12 +9,6 @@ $(document).on("click", "#scrape", function() {
 // List the scraped articles by clicking the List Articles button
 $(document).on("click", "#listArticles", function() {
 
-  // A test needs to be added here 
-  // to see if there are repeats in the list of articles
-  // Add a counter so that a current version of (data) can be
-  // compared to the incoming version of (data).
-  // If a title is the same, skip over that set of data (i), and test next one.
-
   // Get the articles as a json
   $.getJSON("/articles", function(data) {
   // For each one

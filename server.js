@@ -49,26 +49,44 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
+      console.log("result alone is: " + result);
       console.log("result.title is: " + result.title);
-      console.log("result.link is: " + result.link); 
+      console.log("result.link is: " + result.link + "\n");
+
       // Create a new Article in the db using the `result` object built from scraping
       // But only create the new Article in the db if it doesn't already exist
-        
-          db.Article.create(result)
-            .then(function(dbArticle) {
-              // View the added result in the console
-              console.log("dbArticle is: " + dbArticle);
-            })
-            .catch(function(err) {
-              // If an error occurred, send it to the client
-              return res.json(err);
-            });
-        
-      });
+      db.Article.find({})   
+        .then(function(prevArticles) {
+          console.log("before for loops, prevArticles is " + prevArticles);
+          for (var i = 0; i < result.length; i++) {
+            for (var j = 0; j < prevArticles.length; j++) {
+              console.log("result.title[i] = " + result.title[i]);
+              console.log("prevArticles.title[j] = " + prevArticles[j]);
+              if (result.title[i] === prevArticles.title[j]) {
+                console.log("previous title exists!");
+              } else {
+                db.Article.create(result)
+                  .then(function(dbArticle) {
+                  // View the added result in the console
+                   console.log("dbArticle is: " + dbArticle);
+                  })
+                  .catch(function(err) {
+                  // If an error occurred, send it to the client
+                  return res.json(err);
+                  });
+              }
+            }
+          }
+        })
+        .catch(function(err) {
+          // However, if an error occurred, send it to the client
+          res.json(err);
+        });
     });
+  });
     // If successful, send a message to the client
     res.send("Scrape Complete");
-  });
+});
 
 // Route for getting all of the Articles from the db
 app.get("/articles", function(req, res) {
@@ -76,6 +94,7 @@ app.get("/articles", function(req, res) {
   db.Article.find({})
     .then(function(dbArticle) {
       // If that worked, send them back to the client
+      console.log("after list articles button clicked, dbArticle: " + dbArticle);
       res.json(dbArticle);
     })
     .catch(function(err) {
