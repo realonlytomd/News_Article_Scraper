@@ -1,27 +1,29 @@
-//Perform the scrape by clicking the Scrape button
+//Perform the initial scrape, create and fill the database when app is run
+$.ajax({
+  method: "GET",
+  url: "/scrape"
+})
+
+//Re-Perform a scrape by clicking the List New Articles button
 $(document).on("click", "#scrape", function() {
   $.ajax({
     method: "GET",
     url: "/scrape"
   })
-});
-
-// List the scraped articles by clicking the List Articles button
-$(document).on("click", "#listArticles", function() {
-
+  $("#articles").empty();
   // Get the articles as a json
   $.getJSON("/articles", function(data) {
-  // For each one
-    for (var i = 0; i < data.length; i++) {
-    // Display the information on the page
-      $("#articles").append("<p data-id='" + 
-      data[i]._id + "'>" + 
-      data[i].title + "</p><button data-title='" + 
-      data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
-      data[i].link + "' target='_blank'>" + 
-      data[i].link + "</a>");
-    }
-  });
+    // For each one
+      for (var i = 0; i < data.length; i++) {
+      // Display the information on the page
+        $("#articles").prepend("<p data-id='" + 
+        data[i]._id + "'>" + 
+        data[i].title + "</p><button data-title='" + 
+        data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
+        data[i].link + "' target='_blank'>" + 
+        data[i].link + "</a>");
+      }
+    });
 });
 
 // When the title of an article (with a p tag) is clicked
@@ -41,7 +43,7 @@ $(document).on("click", "p", function() {
       console.log(data);
       // The title of the article
       $("#notes").append("<h2>" + data.title + "</h2>");
-      // An input to enter a new title
+      // An input to enter a new note title
       $("#notes").append("<input id='titleinput' name='title' >");
       // A textarea to add a new note body
       $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
@@ -134,7 +136,7 @@ $(document).on("click", ".deleteArticle", function() {
         console.log(data);
           for (var i = 0; i < data.length; i++) {
           // Display the information on the page
-            $("#articles").append("<p data-id='" + 
+            $("#articles").prepend("<p data-id='" + 
             data[i]._id + "'>" + 
             data[i].title + "</p><button data-title='" + 
             data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
