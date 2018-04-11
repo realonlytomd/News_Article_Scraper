@@ -89,7 +89,7 @@ app.get("/articles", function(req, res) {
   db.Article.find({})
     .then(function(dbArticle) {
       // If that worked, send them back to the client
-      console.log("after relist articles button clicked, dbArticle: " + dbArticle);
+      //console.log("after relist articles button clicked, dbArticle: " + dbArticle);
       res.json(dbArticle);
     })
     .catch(function(err) {
@@ -156,11 +156,11 @@ app.delete("/articles/:id", function(req, res) {
     });
 });
 
-// Route for getting a specific Article by title, and then deleting it
-app.delete("/articles/test/:title", function(req, res) {
+// Route for getting a specific Article by id, and then deleting it
+app.delete("/articles/test/:id", function(req, res) {
     // Using the title passed in the title parameter, and make a query that finds the matching one in the db
-    console.log("this is the title of the doc I want to delete: " + req.params.title);
-    db.Article.deleteOne({ title: req.params.title })
+    console.log("this is the id of the doc I want to delete: " + req.params.id);
+    db.Article.deleteOne({ _id: req.params.id })
       .then(function(dbArticle) {
       // If successful, give the list without the given title, send it back to the client 
         res.json(dbArticle);

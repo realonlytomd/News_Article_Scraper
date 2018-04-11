@@ -18,8 +18,8 @@ $(document).on("click", "#scrape", function() {
       // Display the information on the page
         $("#articles").prepend("<p data-id='" + 
         data[i]._id + "'>" + 
-        data[i].title + "</p><button data-title='" + 
-        data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
+        data[i].title + "</p><button data-id='" + 
+        data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
         data[i].link + "' target='_blank'>" + 
         data[i].link + "</a>");
       }
@@ -117,14 +117,14 @@ $(document).on("click", ".deleteArticle", function() {
   //after the proper one is deleted.
   $("#articles").empty();
   // Grab the title associated with the article
-  var thisTitle = $(this).attr("data-title");
+  var thisId = $(this).attr("data-id");
 
-  console.log("this Title is: " + thisTitle);
+  console.log("this Id is: " + thisId);
 
   // Run a DELETE request to delete the article
   $.ajax({
     method: "DELETE",
-    url: "/articles/test/" + thisTitle
+    url: "/articles/test/" + thisId
   })
     //need to relist the articles without the deleted one
     .then(function() {
@@ -138,8 +138,8 @@ $(document).on("click", ".deleteArticle", function() {
           // Display the information on the page
             $("#articles").prepend("<p data-id='" + 
             data[i]._id + "'>" + 
-            data[i].title + "</p><button data-title='" + 
-            data[i].title + "' class='deleteArticle'>Delete Article</button><a href='" + 
+            data[i].title + "</p><button data-id='" + 
+            data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
             data[i].link + "' target='_blank'>" + 
             data[i].link + "</a>");
           }
