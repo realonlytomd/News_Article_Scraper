@@ -42,6 +42,7 @@ app.get("/scrape", function(req, res) {
     $("h2.c-entry-box--compact__title").each(function(i, element) {
       // Save an empty result object
       var result = {};
+      // Save an empty array for the list of titles to compare to what's currently in the db
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
         .children("a")
@@ -49,30 +50,33 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-      console.log("result.title is: " + result.title);
-      console.log("result.link is: " + result.link + "\n");
+      // print each result object to log
+     // console.log("result.title: " + result.title);
 
       // Create a new Article in the db using the `result` object built from scraping
       // But only create the new Article in the db if it doesn't already exist
-        // db.Article.find({})   
-        //  .then(function(prevArticles) {
-        //    console.log("prevArticles is " + prevArticles);
-        //   })
-        //   .catch(function(err) {
-        //     // However, if an error occurred, send it to the client
-        //     res.json(err);
-        //   });
-        //Below is the original create function - KEEP THIS
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            // View the added result in the console
-            console.log("dbArticle is: " + dbArticle);
-          })
-          .catch(function(err) {
-          // If an error occurred, send it to the client
-            return res.json(err);
-          });
-        //KEEP ABOVE
+         db.Article.findOne({ title: result.title })   
+          .then(function(prevArticles) {
+            if (prevArticles) {
+              console.log("This Article already exists: " + prevArticles);
+            } else {
+              //Below is the original create function - KEEP THIS
+              db.Article.create(result)
+                .then(function(dbArticle) {
+                // View the added result in the console
+                console.log("New dbArticle is: " + dbArticle);
+                })
+                .catch(function(err) {
+                // If an error occurred, send it to the client
+                return res.json(err);
+               });
+              //KEEP ABOVE
+            }
+           })
+           .catch(function(err) {
+             // However, if an error occurred, send it to the client
+             res.json(err);
+           });
         });
   });
     // If successful, send a message to the client
