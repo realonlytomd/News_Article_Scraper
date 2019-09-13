@@ -16,7 +16,7 @@ $(document).on("click", "#scrape", function() {
     // For each one
       for (var i = 0; i < data.length; i++) {
       // Display the information on the page
-        $("#articles").prepend("<p data-id='" + 
+        $("#articles").append("<p data-id='" + 
         data[i]._id + "'>" + 
         data[i].title + "</p><button data-id='" + 
         data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
