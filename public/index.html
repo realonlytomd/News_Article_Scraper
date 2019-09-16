@@ -1,59 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+      <title>Scrape News from the Verge</title>
     <meta charset="UTF-8">
-    <title>Scrape Articles Using Mongoose</title>
-    <style>
-      body {
-        background-image: url("assets/img/cityback.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-      
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-      }
-      h1 {
-        text-align: center;
-      }
-      p {
-        margin-top: 24px;
-        margin-bottom: 8px;
-        margin-right: 4px;
-      }
-      .deleteArticle {
-        margin-right: 4px;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 440px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: #e6e2eb;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
-      #deleteNote {
-        margin-left: 4px;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
     <div id="wrapper">
@@ -64,7 +16,8 @@
       <div id="articles"></div>
       <div id="notes"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="app.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
   </body>
 </html>
