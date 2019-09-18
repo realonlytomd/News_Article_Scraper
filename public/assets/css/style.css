@@ -1,18 +1,8 @@
 body {
-    background-image: url("../img/cityback.jpg");
+    /* background-image: url("../img/cityback.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
-}
-  
-#wrapper {
-    width: 960px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 5%;
-}
-
-h1 {
-    text-align: center;
+    background-size: cover; */
+    background-color: aliceblue;
 }
 
 p {
@@ -24,17 +14,17 @@ p {
     margin-right: 4px;
 }
 
-#articles {
+/* #articles {
     display: inline-block;
     overflow: auto;
     width: 60%;
     height: 440px;
-}
+} */
 
-#notes {
+/* #notes {
     float: right;
     width: 30%;
-}
+} */
 
 textarea, input {
     display: block;

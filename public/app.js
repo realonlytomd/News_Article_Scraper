@@ -51,7 +51,9 @@ $(document).on("click", "p", function() {
       $("#notes").append("<button data-id='" + data._id + "' id='saveNote'>Save Note</button>");
       // Here's a button to delete a note, with the id of the article saved to it
       $("#notes").append("<button data-id='" + data._id + "' id='deleteNote'>Delete Note</button>");
-
+      // experiment
+      // show the modal
+      $("#noteModal").modal("show");
       // If there's a note in the article
       if (data.note) {
         // Place the title of the note in the title input
@@ -84,6 +86,7 @@ $(document).on("click", "#saveNote", function() {
       console.log(data);
       // Empty the notes section
       $("#notes").empty();
+      $("#noteModal").modal("hide");
     });
 
   // Also, remove the values entered in the input and textarea for note entry
@@ -104,6 +107,7 @@ $(document).on("click", "#deleteNote", function() {
     // still need to empty the notes div as before
     .then(function() {
       $("#notes").empty();
+      $("#noteModal").modal("hide");
     });
 
   // And remove the values entered in the input and textarea as before

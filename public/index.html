@@ -8,16 +8,35 @@
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
-    <div id="wrapper">
-      <h1>Articles from The Verge</h1>
-      <button id="scrape">List New Articles</button>
-      <h2><i>Click on an article's text below to make a note.</i></h2>
-      <h3><i>Click on the underlined link to go to the article.</i></h3>
-      <div id="articles"></div>
-      <div id="notes"></div>
+    <div class="container-fluid">
+      <div class="row text-center">
+        <div class="col-xs-12">
+          <h1>Articles from The Verge</h1>
+          <button id="scrape">List New Articles</button>
+          <h2><i>Click on an article's text to make a note.</i></h2>
+          <h3><i>Click on the underlined link to go to the article.</i></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div id="articles"></div>
+      </div>
+        <!-- Modal for Notes for particular article -->
+      <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div id="notes"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <!-- End of Bootstrap modal code -->
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
   </body>
 </html>
