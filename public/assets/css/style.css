@@ -14,12 +14,10 @@ p {
     margin-right: 4px;
 }
 
-/* #articles {
+#articles {
     display: inline-block;
-    overflow: auto;
-    width: 60%;
-    height: 440px;
-} */
+    padding: 10px;
+}
 
 /* #notes {
     float: right;
