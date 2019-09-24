@@ -12,52 +12,65 @@ module.exports = function(router) {
     router.get("/scrape", function(req, res) {
         // First, grab the body of the html of the site with request
         axios.get("https://www.theverge.com/").then(function(response) {
-        // Then, load that into cheerio and save it to $ for a shorthand selector
-        var $ = cheerio.load(response.data);
-        // then grab the h2's with the appropriate class, and build the title and associated links:
-        $("h2.c-entry-box--compact__title").each(function(i, element) {
-            // Save an empty result object
-            var result = {};
-            // Save an empty array for the list of titles to compare to what's currently in the db
-            // Add the text and href of every link, and save them as properties of the result object
-            result.title = $(this)
-            .children("a")
-            .text();
-            result.link = $(this)
-            .children("a")
-            .attr("href");
-            // print each result object to log
-        // console.log("result.title: " + result.title);
-    
+            // Then, load that into cheerio and save it to $ for a shorthand selector
+            var $ = cheerio.load(response.data);
+            
+            // then grab the h2's with the appropriate class, and build the title and associated links:
+            //$("h2.c-entry-box--compact__title").each(function(i, element) {
+            // $("picture.c-picture").each(function(i, element) {
+            //     // Add the image, text and href of every link, and save them as properties of the result object
+            //     result.image = $(this)
+            //     .children("img")
+            //     .attr("src");
+            //     console.log("result.image: " + result.image);
+            // });
+            $("h2.c-entry-box--compact__title").each(function(i, element) {
+                // Save an empty result object outside of functions that assign different
+                // elements of result object
+                var result = {};
+                result.title = $(this)
+                .children("a")
+                .text();
+                // .trim();
+                console.log("result.title: " + result.title);
+                result.link = $(this)
+                .children("a")
+                .attr("href");
+                // print each result object to log
+                console.log("result.link: " + result.link);
+        
+
+            // Now, make another function to assign result.image
+
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
-            db.Article.findOne({ title: result.title })   
-                .then(function(prevArticles) {
-                if (prevArticles) {
-                    console.log("This Article already exists: " + prevArticles);
-                } else {
-                    //Below is the original create function - KEEP THIS
-                    db.Article.create(result)
-                    .then(function(dbArticle) {
-                    // View the added result in the console
-                    console.log("New dbArticle is: " + dbArticle);
+            // this if statement checks to see if the title already is in the db
+                db.Article.findOne({ title: result.title })   
+                    .then(function(prevArticles) {
+                    if (prevArticles) {
+                        console.log("This Article already exists: " + prevArticles);
+                    } else {
+                        //Below is the original create function - KEEP THIS
+                        db.Article.create(result)
+                        .then(function(dbArticle) {
+                        // View the added result in the console
+                        console.log("New dbArticle is: " + dbArticle);
+                        })
+                        .catch(function(err) {
+                        // If an error occurred, send it to the client
+                        return res.json(err);
+                        }); //KEEP ABOVE
+                    }
                     })
                     .catch(function(err) {
-                    // If an error occurred, send it to the client
-                    return res.json(err);
-                    });
-                    //KEEP ABOVE
-                }
-                })
-                .catch(function(err) {
-                // However, if an error occurred, send it to the client
-                res.json(err);
-                });
-            });
-        });
+                        // However, if an error occurred, send it to the client
+                        res.json(err);
+                    }); // this completes the creation of the db function inside the test function
+            }); // this completes the assigning of elements that have been scraped to the result object
+        }); // this completes the axios.get function
         // If successful, send a message to the client
         res.send("Scrape Complete");
-    });
+    }); // this ccompletes the /scrape function
     
     // Route for getting all of the Articles from the db
     router.get("/articles", function(req, res) {
