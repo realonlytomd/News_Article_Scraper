@@ -32,12 +32,20 @@ module.exports = function(router) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
-                // result.image = $(this)
-                // .children("a")
-                // .children("picture.c-picture")
-                // .children("img")
-                // .attr("src");
-                // console.log("result.image: " + result.image);
+                result.image = $(this)
+                .children("a")
+                .children("picture.c-picture")
+                .children("img")
+                .attr("src");
+                console.log("result.image: ", result.image);
+                if (result.image === undefined) {
+                    result.image = $(this)
+                    .children("a")
+                    .children("div.c-entry-box--compact__image")
+                    .children("img.c-dynamic-image")
+                    .attr("src");
+                    console.log("inside if: result.image: ", result.image);
+                }
                 result.title = $(this)
                 .children("div.c-entry-box--compact__body")
                 .children("h2.c-entry-box--compact__title")
