@@ -4,6 +4,7 @@
 var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var cheerioAdv = require("cheerio-advanced-selectors");
 var router = express.Router();
 var db = require("../models");
 // Routes
@@ -13,6 +14,7 @@ module.exports = function(router) {
         // First, grab the body of the html of the site with request
         axios.get("https://www.theverge.com/").then(function(response) {
             // Then, load that into cheerio and save it to $ for a shorthand selector
+            cheerio = cheerioAdv.wrap(cheerio);
             var $ = cheerio.load(response.data);
             
             // then grab the h2's with the appropriate class, and build the title and associated links:
@@ -24,14 +26,23 @@ module.exports = function(router) {
             //     .attr("src");
             //     console.log("result.image: " + result.image);
             // });
-            $("h2.c-entry-box--compact__title").each(function(i, element) {
+            //$("h2.c-entry-box--compact__title").each(function(i, element) {
+            $("div.c-entry-box--compact").each(function(i, element) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
-                result.title = $(this)
+                result.image = $(this)
                 .children("a")
-                .text();
-                // .trim();
+                .children("picture.c-picture")
+                .children("img")
+                .attr("src");
+                console.log("result.image: " + result.image);
+                result.title = $(this)
+                .children("div.c-entry-box--compact__body")
+                .children("h2.c-entry-box--compact__title")
+                .children("a")
+                .text()
+                .trim();
                 console.log("result.title: " + result.title);
                 result.link = $(this)
                 .children("a")
@@ -48,13 +59,13 @@ module.exports = function(router) {
                 db.Article.findOne({ title: result.title })   
                     .then(function(prevArticles) {
                     if (prevArticles) {
-                        console.log("This Article already exists: " + prevArticles);
+                        //console.log("This Article already exists: " + prevArticles);
                     } else {
                         //Below is the original create function - KEEP THIS
                         db.Article.create(result)
                         .then(function(dbArticle) {
                         // View the added result in the console
-                        console.log("New dbArticle is: " + dbArticle);
+                        //console.log("New dbArticle is: " + dbArticle);
                         })
                         .catch(function(err) {
                         // If an error occurred, send it to the client
