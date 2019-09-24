@@ -4,7 +4,7 @@
 var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
-var cheerioAdv = require("cheerio-advanced-selectors");
+//var cheerioAdv = require("cheerio-advanced-selectors");
 var router = express.Router();
 var db = require("../models");
 // Routes
@@ -14,7 +14,8 @@ module.exports = function(router) {
         // First, grab the body of the html of the site with request
         axios.get("https://www.theverge.com/").then(function(response) {
             // Then, load that into cheerio and save it to $ for a shorthand selector
-            cheerio = cheerioAdv.wrap(cheerio);
+            // if using cheerio advanced, this should be added back in
+            //cheerio = cheerioAdv.wrap(cheerio);
             var $ = cheerio.load(response.data);
             
             // then grab the h2's with the appropriate class, and build the title and associated links:
@@ -31,12 +32,12 @@ module.exports = function(router) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
-                result.image = $(this)
-                .children("a")
-                .children("picture.c-picture")
-                .children("img")
-                .attr("src");
-                console.log("result.image: " + result.image);
+                // result.image = $(this)
+                // .children("a")
+                // .children("picture.c-picture")
+                // .children("img")
+                // .attr("src");
+                // console.log("result.image: " + result.image);
                 result.title = $(this)
                 .children("div.c-entry-box--compact__body")
                 .children("h2.c-entry-box--compact__title")

@@ -17,19 +17,19 @@ $(document).on("click", "#scrape", function() {
     console.log("data returned:", data);
       for (var i = 0; i < data.length; i++) {
       // Display the information on the page
-        $("#articles").append("<img src='" +
-        data[i].image + "'><p data-id='" + 
-        data[i]._id + "'>" + 
-        data[i].title + "</p><button data-id='" + 
-        data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
-        data[i].link + "' target='_blank'>" + 
-        data[i].link + "</a>");
-        // $("#articles").append("<p data-id='" + 
-        //     data[i]._id + "'>" + 
-        //     data[i].title + "</p><button data-id='" + 
-        //     data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
-        //     data[i].link + "' target='_blank'>" + 
-        //     data[i].link + "</a>");
+        // $("#articles").append("<img src='" +
+        // data[i].image + "'><p data-id='" + 
+        // data[i]._id + "'>" + 
+        // data[i].title + "</p><button data-id='" + 
+        // data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
+        // data[i].link + "' target='_blank'>" + 
+        // data[i].link + "</a>");
+        $("#articles").append("<p data-id='" + 
+            data[i]._id + "'>" + 
+            data[i].title + "</p><button data-id='" + 
+            data[i]._id + "' class='deleteArticle'>Delete Article</button><a href='" + 
+            data[i].link + "' target='_blank'>" + 
+            data[i].link + "</a>");
       }
     });
 });
