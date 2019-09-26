@@ -4,9 +4,11 @@
 var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
-//var cheerioAdv = require("cheerio-advanced-selectors");
+// var cheerioAdv = require("cheerio-advanced-selectors");
+// cheerio = cheerioAdv.wrap(cheerio);
 var router = express.Router();
 var db = require("../models");
+var imageArray = [];
 // Routes
 module.exports = function(router) {
     // the GET route for scraping The Verge's website
@@ -34,33 +36,41 @@ module.exports = function(router) {
                 var result = {};
                 result.image = $(this)
                 .children("a")
-                .children("picture.c-picture")
-                .children("img")
+                // .children("picture.c-picture")
+                .find("img")
                 .attr("src");
-                console.log("result.image: ", result.image);
+                // result.image = $(this)
+                // .children("a")
+                // .children("div.c-dynamic-image")
+                // .css("style");
+                console.log("result.image from scrape:", result.image);
+                // imageArray = result.image.split('"');
+                // console.log("imageArray after split: ", imageArray);
+                // result.image = imageArray[1];
+                // console.log("new result.image after getting index 1: ", result.image);
+                // if (result.image === undefined) {
+                //     result.image = $(this)
+                //     .children("a")
+                //     .children("div.c-entry-box--compact__image")
+                //     .children("img")
+                //     .attr("src");
+                //     console.log("inside if: result.image: ", result.image);
+                // }
                 if (result.image === undefined) {
-                    result.image = $(this)
-                    .children("a")
-                    .children("div.c-entry-box--compact__image")
-                    .children("img.c-dynamic-image")
-                    .attr("src");
-                    console.log("inside if: result.image: ", result.image);
+                    console.log("result.image still undefined!");
+                    return
                 }
                 result.title = $(this)
                 .children("div.c-entry-box--compact__body")
                 .children("h2.c-entry-box--compact__title")
                 .children("a")
                 .text()
-                .trim();
+                // .trim();
                 console.log("result.title: " + result.title);
                 result.link = $(this)
                 .children("a")
                 .attr("href");
-                // print each result object to log
                 console.log("result.link: " + result.link);
-        
-
-            // Now, make another function to assign result.image
 
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist

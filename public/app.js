@@ -17,6 +17,8 @@ $(document).on("click", "#scrape", function() {
     console.log("data returned:", data);
       for (var i = 0; i < data.length; i++) {
       // Display the information on the page
+      console.log("i = ", i);
+      console.log("data[i].image = ", data[i].image);
         $("#articles").append("<img src='" +
         data[i].image + "'><p data-id='" + 
         data[i]._id + "'>" + 
