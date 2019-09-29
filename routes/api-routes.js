@@ -29,21 +29,20 @@ module.exports = function(router) {
             //     .attr("src");
             //     console.log("result.image: " + result.image);
             // });
-            //$("h2.c-entry-box--compact__title").each(function(i, element) {
-            $("div.c-entry-box--compact").each(function(i, element) {
+            $("h2.c-entry-box--compact__title").each(function(i, element) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
-                result.image = $(this)
-                .children("a")
+                // result.image = $(this)
+                // .children("a")
                 // .children("picture.c-picture")
-                .find("img")
-                .attr("src");
+                // .find("img")
+                // .attr("src");
                 // result.image = $(this)
                 // .children("a")
                 // .children("div.c-dynamic-image")
                 // .css("style");
-                console.log("result.image from scrape:", result.image);
+                // console.log("result.image from scrape:", result.image);
                 // imageArray = result.image.split('"');
                 // console.log("imageArray after split: ", imageArray);
                 // result.image = imageArray[1];
@@ -56,13 +55,10 @@ module.exports = function(router) {
                 //     .attr("src");
                 //     console.log("inside if: result.image: ", result.image);
                 // }
-                if (result.image === undefined) {
-                    console.log("result.image still undefined!");
-                    return
-                }
+                // if (result.image === undefined) {
+                //     result.image = "no image found";
+                // }
                 result.title = $(this)
-                .children("div.c-entry-box--compact__body")
-                .children("h2.c-entry-box--compact__title")
                 .children("a")
                 .text()
                 // .trim();
@@ -71,20 +67,19 @@ module.exports = function(router) {
                 .children("a")
                 .attr("href");
                 console.log("result.link: " + result.link);
-
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
             // this if statement checks to see if the title already is in the db
                 db.Article.findOne({ title: result.title })   
                     .then(function(prevArticles) {
                     if (prevArticles) {
-                        //console.log("This Article already exists: " + prevArticles);
+                        console.log("This Article already exists: " + prevArticles);
                     } else {
                         //Below is the original create function - KEEP THIS
                         db.Article.create(result)
                         .then(function(dbArticle) {
                         // View the added result in the console
-                        //console.log("New dbArticle is: " + dbArticle);
+                        console.log("New dbArticle is: " + dbArticle);
                         })
                         .catch(function(err) {
                         // If an error occurred, send it to the client
