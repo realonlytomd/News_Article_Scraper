@@ -103,7 +103,7 @@ module.exports = function(router) {
     db.Article.find({})
         .then(function(dbArticle) {
         // If that worked, send them back to the client
-        //console.log("after relist articles button clicked, dbArticle: " + dbArticle);
+        console.log("after relist articles button clicked, (find({})dbArticle): " + dbArticle);
         res.json(dbArticle);
         })
         .catch(function(err) {

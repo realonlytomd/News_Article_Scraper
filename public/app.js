@@ -15,15 +15,23 @@ $(document).on("click", "#scrape", function() {
   $.getJSON("/articles", function(data) {
     // For each one
     console.log("data returned from scrape:", data);
-      for (var i = 0; i < data.length; i++) {
-      // Display the information on the page
+    // Display the information on the page
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].note) {
+        $("#articles").append("<p style='color:green;' data-id='" + 
+          data[i]._id + "'>" + 
+          data[i].title + " You've made a Note!</p><button data-id='" + 
+          data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+          data[i].link + "' target='_blank'>Go To Article</a></button>");
+      } else {
         $("#articles").append("<p data-id='" + 
-            data[i]._id + "'>" + 
-            data[i].title + "</p><button data-id='" + 
-            data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-            data[i].link + "' target='_blank'>Go To Article</a></button>");
+        data[i]._id + "'>" + 
+        data[i].title + "</p><button data-id='" + 
+        data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+        data[i].link + "' target='_blank'>Go To Article</a></button>");
       }
-    });
+    }
+  });
 });
 
 // When the title of an article (with a p tag) is clicked
@@ -138,14 +146,21 @@ $(document).on("click", ".deleteArticle", function() {
       $.getJSON("/articles", function(data) {
         // For each one
         console.log(data);
-          for (var i = 0; i < data.length; i++) {
-          // Display the information on the page
-          $("#articles").append("<p data-id='" + 
-          data[i]._id + "'>" + 
-          data[i].title + "</p><button data-id='" + 
-          data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-          data[i].link + "' target='_blank'>Go To Article</a></button>");
-          }
-        });
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].note) {
+          $("#articles").append("<p style='color:green;' data-id='" + 
+            data[i]._id + "'>" + 
+            data[i].title + " You've made a *Note!</p><button data-id='" + 
+            data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+            data[i].link + "' target='_blank'>Go To Article</a></button>");
+          } else {
+            $("#articles").append("<p data-id='" + 
+            data[i]._id + "'>" + 
+            data[i].title + "</p><button data-id='" + 
+            data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+            data[i].link + "' target='_blank'>Go To Article</a></button>");
+         }
+        }
+      });
     });
 });
