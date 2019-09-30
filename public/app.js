@@ -14,7 +14,7 @@ $(document).on("click", "#scrape", function() {
   // Get the articles as a json
   $.getJSON("/articles", function(data) {
     // For each one
-    console.log("data returned:", data);
+    console.log("data returned from scrape:", data);
       for (var i = 0; i < data.length; i++) {
       // Display the information on the page
         $("#articles").append("<p data-id='" + 
@@ -40,7 +40,7 @@ $(document).on("click", "p", function() {
   })
     // With that done, add the note information to the page
     .then(function(data) {
-      console.log(data);
+      console.log("data from GET /articles+id", data);
       // The title of the article
       $("#notes").append("<h2>" + data.title + "</h2>");
       // An input to enter a new note title
@@ -54,7 +54,7 @@ $(document).on("click", "p", function() {
       // experiment
       // show the modal
       $("#noteModal").modal("show");
-      // If there's a note in the article
+      // If there's already a note in the article
       if (data.note) {
         // Place the title of the note in the title input
         $("#titleinput").val(data.note.title);
@@ -83,7 +83,7 @@ $(document).on("click", "#saveNote", function() {
     // With that done
     .then(function(data) {
       // Log the response
-      console.log(data);
+      console.log("data from posting a new Note: ", data);
       // Empty the notes section
       $("#notes").empty();
       $("#noteModal").modal("hide");
@@ -98,7 +98,7 @@ $(document).on("click", "#saveNote", function() {
 $(document).on("click", "#deleteNote", function() {
   // Grab the id associated with the article
   var thisId = $(this).attr("data-id");
-  console.log(thisId);
+  console.log("delete the note at thisId: ", thisId);
   // Run a DELETE request to delete the note
   $.ajax({
     method: "DELETE",
@@ -123,7 +123,7 @@ $(document).on("click", ".deleteArticle", function() {
   // Grab the title associated with the article
   var thisId = $(this).attr("data-id");
 
-  console.log("this Id is: " + thisId);
+  console.log("delete the note at this Id: " + thisId);
 
   // Run a DELETE request to delete the article
   $.ajax({
