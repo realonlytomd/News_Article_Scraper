@@ -2,16 +2,11 @@
 $.ajax({
   method: "GET",
   url: "/scrape"
-})
-
-//Re-Perform a scrape by clicking the List New Articles button
-$(document).on("click", "#scrape", function() {
-  $.ajax({
-    method: "GET",
-    url: "/scrape"
-  })
-  $("#articles").empty();
-  // Get the articles as a json
+}).then(function() {
+});
+// create function to display all the data on the page after retrieved from the db
+function displayData() {
+    // Get the articles as a json
   $.getJSON("/articles", function(data) {
     // For each one
     console.log("data returned from scrape:", data);
@@ -31,6 +26,37 @@ $(document).on("click", "#scrape", function() {
         data[i].link + "' target='_blank'>Go To Article</a></button>");
       }
     }
+  });
+}
+//Re-Perform a scrape by clicking the List New Articles button
+$(document).on("click", "#scrape", function() {
+  $("#articles").empty();
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  }).then (function() {
+    displayData();
+    // // Get the articles as a json
+    // $.getJSON("/articles", function(data) {
+    //   // For each one
+    //   console.log("data returned from scrape:", data);
+    //   // Display the information on the page
+    //   for (var i = 0; i < data.length; i++) {
+    //     if (data[i].note) {
+    //       $("#articles").append("<p style='color:green;' data-id='" + 
+    //         data[i]._id + "'>" + 
+    //         data[i].title + " You've made a Note!</p><button data-id='" + 
+    //         data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+    //         data[i].link + "' target='_blank'>Go To Article</a></button>");
+    //     } else {
+    //       $("#articles").append("<p data-id='" + 
+    //       data[i]._id + "'>" + 
+    //       data[i].title + "</p><button data-id='" + 
+    //       data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+    //       data[i].link + "' target='_blank'>Go To Article</a></button>");
+    //     }
+    //   }
+    // });
   });
 });
 
@@ -142,25 +168,25 @@ $(document).on("click", ".deleteArticle", function() {
     .then(function() {
       //repopulate with the current list of articles
       //without the recently deleted one.
-     
-      $.getJSON("/articles", function(data) {
-        // For each one
-        console.log(data);
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].note) {
-          $("#articles").append("<p style='color:green;' data-id='" + 
-            data[i]._id + "'>" + 
-            data[i].title + " You've made a *Note!</p><button data-id='" + 
-            data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-            data[i].link + "' target='_blank'>Go To Article</a></button>");
-          } else {
-            $("#articles").append("<p data-id='" + 
-            data[i]._id + "'>" + 
-            data[i].title + "</p><button data-id='" + 
-            data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-            data[i].link + "' target='_blank'>Go To Article</a></button>");
-         }
-        }
-      });
+     displayData();
+      // $.getJSON("/articles", function(data) {
+      //   // For each one
+      //   console.log(data);
+      //   for (var i = 0; i < data.length; i++) {
+      //     if (data[i].note) {
+      //       $("#articles").append("<p style='color:green;' data-id='" + 
+      //         data[i]._id + "'>" + 
+      //         data[i].title + " You've made a Note!</p><button data-id='" + 
+      //         data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+      //         data[i].link + "' target='_blank'>Go To Article</a></button>");
+      //     } else {
+      //       $("#articles").append("<p data-id='" + 
+      //       data[i]._id + "'>" + 
+      //       data[i].title + "</p><button data-id='" + 
+      //       data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+      //       data[i].link + "' target='_blank'>Go To Article</a></button>");
+      //     }
+      //   }
+      // });
     });
 });
