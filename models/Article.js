@@ -10,11 +10,6 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  // // 'image' is required and of type String
-  // image: {
-  //   type: String,
-  //   required: true
-  // },
   // `link` is required and of type String
   link: {
     type: String,
@@ -27,6 +22,9 @@ var ArticleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Note"
   }
+}, {
+  // adding timestamps created at and updated at
+  timestamps: true
 });
 
 // This creates our model from the above schema, using mongoose's model method
