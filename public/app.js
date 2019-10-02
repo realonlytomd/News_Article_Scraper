@@ -12,10 +12,12 @@ function displayData() {
     console.log("data returned from scrape:", data);
     // Display the information on the page
     for (var i = 0; i < data.length; i++) {
+      // if a note for a particular article exists, change font color of title to green
+      // and tell user they've previously added a note
       if (data[i].note) {
         $("#articles").append("<p style='color:green;' data-id='" + 
           data[i]._id + "'>" + 
-          data[i].title + " You've made a Note!</p><button data-id='" + 
+          data[i].title + ". You've made a Note!</p><button data-id='" + 
           data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
           data[i].link + "' target='_blank'>Go To Article</a></button>");
       } else {
@@ -36,27 +38,6 @@ $(document).on("click", "#scrape", function() {
     url: "/scrape"
   }).then (function() {
     displayData();
-    // // Get the articles as a json
-    // $.getJSON("/articles", function(data) {
-    //   // For each one
-    //   console.log("data returned from scrape:", data);
-    //   // Display the information on the page
-    //   for (var i = 0; i < data.length; i++) {
-    //     if (data[i].note) {
-    //       $("#articles").append("<p style='color:green;' data-id='" + 
-    //         data[i]._id + "'>" + 
-    //         data[i].title + " You've made a Note!</p><button data-id='" + 
-    //         data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-    //         data[i].link + "' target='_blank'>Go To Article</a></button>");
-    //     } else {
-    //       $("#articles").append("<p data-id='" + 
-    //       data[i]._id + "'>" + 
-    //       data[i].title + "</p><button data-id='" + 
-    //       data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-    //       data[i].link + "' target='_blank'>Go To Article</a></button>");
-    //     }
-    //   }
-    // });
   });
 });
 
@@ -102,27 +83,25 @@ $(document).on("click", "p", function() {
 $(document).on("click", "#saveNote", function() {
   // Get the id associated with the article
   var thisId = $(this).attr("data-id");
-
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
     data: {
-      // Value taken from title input
+      // Value taken from title input and the textarea
       title: $("#titleinput").val(),
-      // Value taken from note textarea
       body: $("#bodyinput").val()
     }
   })
-    // With that done
-    .then(function(data) {
-      // Log the response
-      console.log("data from posting a new Note: ", data);
-      // Empty the notes section
-      $("#notes").empty();
-      $("#noteModal").modal("hide");
-    });
-
+  .then(function(data) {
+    // Log the response
+    console.log("data from posting a new Note: ", data);
+    // Empty the notes section
+    $("#notes").empty();
+    $("#noteModal").modal("hide");
+    $("#articles").empty();
+    displayData();
+  });
   // Also, remove the values entered in the input and textarea for note entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
@@ -142,6 +121,8 @@ $(document).on("click", "#deleteNote", function() {
     .then(function() {
       $("#notes").empty();
       $("#noteModal").modal("hide");
+      $("#articles").empty();
+      displayData();
     });
 
   // And remove the values entered in the input and textarea as before
@@ -152,41 +133,18 @@ $(document).on("click", "#deleteNote", function() {
 // When the Delete Article button is clicked
 $(document).on("click", ".deleteArticle", function() {
   //empty out the articles section in order to repopulate with the current list of articles
-  //after the proper one is deleted.
+  //after the chosen one is deleted.
   $("#articles").empty();
   // Grab the title associated with the article
   var thisId = $(this).attr("data-id");
-
-  console.log("delete the note at this Id: " + thisId);
-
   // Run a DELETE request to delete the article
   $.ajax({
     method: "DELETE",
     url: "/articles/test/" + thisId
   })
-    //need to relist the articles without the deleted one
     .then(function() {
       //repopulate with the current list of articles
       //without the recently deleted one.
      displayData();
-      // $.getJSON("/articles", function(data) {
-      //   // For each one
-      //   console.log(data);
-      //   for (var i = 0; i < data.length; i++) {
-      //     if (data[i].note) {
-      //       $("#articles").append("<p style='color:green;' data-id='" + 
-      //         data[i]._id + "'>" + 
-      //         data[i].title + " You've made a Note!</p><button data-id='" + 
-      //         data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-      //         data[i].link + "' target='_blank'>Go To Article</a></button>");
-      //     } else {
-      //       $("#articles").append("<p data-id='" + 
-      //       data[i]._id + "'>" + 
-      //       data[i].title + "</p><button data-id='" + 
-      //       data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-      //       data[i].link + "' target='_blank'>Go To Article</a></button>");
-      //     }
-      //   }
-      // });
     });
 });
