@@ -40,6 +40,11 @@ textarea {
     font-size: 18px;
 }
 
+#saveNote {
+    margin-top: 4px;
+}
+
 #deleteNote {
     margin-left: 4px;
+    margin-top: 4px;
 }

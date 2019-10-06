@@ -17,7 +17,7 @@ function displayData() {
       if (data[i].note) {
         $("#articles").append("<p style='color:green;' data-id='" + 
           data[i]._id + "'>" + 
-          data[i].title + ". You've made a Note!</p><button data-id='" + 
+          data[i].title + "  (You've made a Note!)</p><button data-id='" + 
           data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
           data[i].link + "' target='_blank'>Go To Article</a></button>");
       } else {

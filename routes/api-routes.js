@@ -19,49 +19,14 @@ module.exports = function(router) {
             // if using cheerio advanced, this should be added back in
             //cheerio = cheerioAdv.wrap(cheerio);
             var $ = cheerio.load(response.data);
-            
-            // then grab the h2's with the appropriate class, and build the title and associated links:
-            //$("h2.c-entry-box--compact__title").each(function(i, element) {
-            // $("picture.c-picture").each(function(i, element) {
-            //     // Add the image, text and href of every link, and save them as properties of the result object
-            //     result.image = $(this)
-            //     .children("img")
-            //     .attr("src");
-            //     console.log("result.image: " + result.image);
-            // });
             $("h2.c-entry-box--compact__title").each(function(i, element) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
-                // result.image = $(this)
-                // .children("a")
-                // .children("picture.c-picture")
-                // .find("img")
-                // .attr("src");
-                // result.image = $(this)
-                // .children("a")
-                // .children("div.c-dynamic-image")
-                // .css("style");
-                // console.log("result.image from scrape:", result.image);
-                // imageArray = result.image.split('"');
-                // console.log("imageArray after split: ", imageArray);
-                // result.image = imageArray[1];
-                // console.log("new result.image after getting index 1: ", result.image);
-                // if (result.image === undefined) {
-                //     result.image = $(this)
-                //     .children("a")
-                //     .children("div.c-entry-box--compact__image")
-                //     .children("img")
-                //     .attr("src");
-                //     console.log("inside if: result.image: ", result.image);
-                // }
-                // if (result.image === undefined) {
-                //     result.image = "no image found";
-                // }
                 result.title = $(this)
                 .children("a")
                 .text()
-                // .trim();
+                .trim();
                 console.log("result.title: " + result.title);
                 result.link = $(this)
                 .children("a")
@@ -69,7 +34,7 @@ module.exports = function(router) {
                 console.log("result.link: " + result.link);
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
-            // this if statement checks to see if the title already is in the db
+            // This if statement checks to see if the title already is in the db
                 db.Article.findOne({ title: result.title })   
                     .then(function(prevArticles) {
                     if (prevArticles) {
