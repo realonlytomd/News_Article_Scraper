@@ -4,6 +4,7 @@
 var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var moment = require("moment");
 // var cheerioAdv = require("cheerio-advanced-selectors");
 // cheerio = cheerioAdv.wrap(cheerio);
 var router = express.Router();
@@ -27,24 +28,24 @@ module.exports = function(router) {
                 .children("a")
                 .text()
                 .trim();
-                console.log("result.title: " + result.title);
+                //console.log("result.title: " + result.title);
                 result.link = $(this)
                 .children("a")
                 .attr("href");
-                console.log("result.link: " + result.link);
+                //console.log("result.link: " + result.link);
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
             // This if statement checks to see if the title already is in the db
                 db.Article.findOne({ title: result.title })   
                     .then(function(prevArticles) {
                     if (prevArticles) {
-                        console.log("This Article already exists: " + prevArticles);
+                        //console.log("This Article already exists: " + prevArticles);
                     } else {
                         //Below is the original create function - KEEP THIS
                         db.Article.create(result)
                         .then(function(dbArticle) {
                         // View the added result in the console
-                        console.log("New dbArticle is: " + dbArticle);
+                        //console.log("New dbArticle is: " + dbArticle);
                         })
                         .catch(function(err) {
                         // If an error occurred, send it to the client
@@ -64,11 +65,25 @@ module.exports = function(router) {
     
     // Route for getting all of the Articles from the db
     router.get("/articles", function(req, res) {
+        //Here (possibly) insert a function to delete articles in the db
+        // that are older than 2 minutes  -  for testing
+        // 
+        var newNow = new moment().format();
+        console.log("now: ", newNow);
+        var twoMinutePrev = moment().subtract(2,"minutes");
+        console.log("twoMinutePrev: ", twoMinutePrev);
+        db.Article.deleteMany({ updatedAt: { $lt: twoMinutePrev } })
+            .then(function(dbDate){
+                console.log("dbDate: ", dbDate);
+            });
+            // above test for 2 minutes is WORKING, but ...
+            // I should not rescrape after deleted, or they
+            // just reappear in the database.
     // Find all of the document in the Articles collection
     db.Article.find({})
         .then(function(dbArticle) {
         // If that worked, send them back to the client
-        console.log("after relist articles button clicked, (find({})dbArticle): " + dbArticle);
+        //console.log("after relist articles button clicked, (find({})dbArticle): " + dbArticle);
         res.json(dbArticle);
         })
         .catch(function(err) {

@@ -23,7 +23,7 @@ var ArticleSchema = new Schema({
     ref: "Note"
   }
 }, {
-  // adding timestamps created at and updated at
+  // adding timestamps: created at and updated at
   timestamps: true
 });
 
