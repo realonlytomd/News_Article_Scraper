@@ -65,31 +65,31 @@ module.exports = function(router) {
     
     // Route for getting all of the Articles from the db
     router.get("/articles", function(req, res) {
-        //Here (possibly) insert a function to delete articles in the db
-        // that are older than 2 minutes  -  for testing
-        // 
-        var newNow = new moment().format();
-        console.log("now: ", newNow);
-        var twoMinutePrev = moment().subtract(2,"minutes");
-        console.log("twoMinutePrev: ", twoMinutePrev);
-        db.Article.deleteMany({ updatedAt: { $lt: twoMinutePrev } })
-            .then(function(dbDate){
-                console.log("dbDate: ", dbDate);
+        //Here insert a function to delete articles in the db
+        // that are older than 1 week using the moment.js library
+        // This is so the db doesn't continue to grow over time.
+        var oneWeekPrev = moment().subtract(7,"days");
+        console.log("twoMinutePrev: ", oneWeekPrev);
+        // delete all articles that were updated in a time before 7 days ago.
+        // this includes articles that have notes stored if over a week old. - might need to change this.
+        // one what to change this is to automatically update the article's updatedAt
+        // value to "now" before this deleteMany takes place
+        db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
+            .then(function(dbDateDelete){
+                console.log("dbDate: ", dbDateDelete);
             });
-            // above test for 2 minutes is WORKING, but ...
-            // I should not rescrape after deleted, or they
-            // just reappear in the database.
-    // Find all of the document in the Articles collection
-    db.Article.find({})
-        .then(function(dbArticle) {
-        // If that worked, send them back to the client
-        //console.log("after relist articles button clicked, (find({})dbArticle): " + dbArticle);
-        res.json(dbArticle);
-        })
-        .catch(function(err) {
-        // However, if an error occurred, send it to the client
-        res.json(err);
-        });
+            // It's ok to rescrape after deleted, as those articles (probably) won't
+            // still be on the site, and consequently, won't be scraped again. 
+        db.Article.find({})
+            .then(function(dbArticle) {
+            // If that worked, send them back to the client
+            //console.log("after relist articles button clicked, (find({})dbArticle): " + dbArticle);
+            res.json(dbArticle);
+            })
+            .catch(function(err) {
+            // However, if an error occurred, send it to the client
+            res.json(err);
+            });
     });
     
     // Route for getting a specific Article by id, and then populate it with it's note
