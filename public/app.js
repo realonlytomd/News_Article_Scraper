@@ -1,3 +1,4 @@
+$(document).ready(function() {
 //Perform the initial scrape, create and fill the database when app is run
 $.ajax({
   method: "GET",
@@ -11,10 +12,27 @@ function displayData() {
     // For each one
     console.log("data returned from scrape:", data);
     // Display the information on the page
-    for (var i = 0; i < data.length; i++) {
+    for (i = 0; i < data.length; i++) {
       // if a note for a particular article exists, change font color of title to green
       // and tell user they've previously added a note
-      if (data[i].note) {
+      if (data[i].note) {  // if a note exists on (this) article, call function that makes
+        // a slight update to the note so that it's updatedAt value is changed (in save Note function),
+        // or, change updatedAt value in article directly to "now" (in /articles function) (???)
+        // ***  this is currently not correct!!!! but close
+        $.ajax({
+          method: "POST",
+          url: "/articles/" + data[i]._id,
+          data: {
+            // input updated character to title
+            title: data[i].note.title + " (updated)"
+          }
+        })
+        .then(function(data) {
+          // Log the response
+          console.log("data from posting a new Note: ", data);
+        });
+
+        //****
         $("#articles").append("<p style='color:green;' data-id='" + 
           data[i]._id + "'>" + 
           data[i].title + "  (You've made a Note!)</p><button data-id='" + 
@@ -30,7 +48,40 @@ function displayData() {
     }
   });
 }
+
+// this is a function that ammends a note slightly if one exists when
+// the user lists the articles in the db. - (so that the article's updatedAt
+// is updated, and won't be deleted when the deleteMany is called)
+// When the Save Note button is clicked
+// function slightlyUpdateNote() {
+//   // Get the id associated with the article
+//   var thisId = data[i]._id;
+//   console.log("in slightlyUpdateNote function, thisId = ", thisId);
+//   // Run a POST request to change the note, using what's entered in the inputs
+//   $.ajax({
+//     method: "POST",
+//     url: "/articles/" + thisId,
+//     data: {
+//       // input updated character to title
+//       title: data[i].title + "updated"
+//     }
+//   })
+//   .then(function(data) {
+//     // Log the response
+//     console.log("data from posting a new Note: ", data);
+    
+//   });
+// }
+
+// this is the end of the slightly update note function
+
 //Re-Perform a scrape by clicking the List New Articles button
+//
+// * add later *
+// need to check which articles in the db already have a note, and
+// need to be updated (slightly), so that their updatedAt value
+// won't allow them to be deleted if over a week old.
+//
 $(document).on("click", "#scrape", function() {
   $("#articles").empty();
   $.ajax({
@@ -83,6 +134,7 @@ $(document).on("click", "p", function() {
 $(document).on("click", "#saveNote", function() {
   // Get the id associated with the article
   var thisId = $(this).attr("data-id");
+  console.log("in #saveNote, thisId = ", thisId);
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
     method: "POST",
@@ -147,4 +199,5 @@ $(document).on("click", ".deleteArticle", function() {
       //without the recently deleted one.
      displayData();
     });
+});
 });

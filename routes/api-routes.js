@@ -68,12 +68,15 @@ module.exports = function(router) {
         //Here insert a function to delete articles in the db
         // that are older than 1 week using the moment.js library
         // This is so the db doesn't continue to grow over time.
-        var oneWeekPrev = moment().subtract(7,"days");
+        //*
+        // insert function to update pre-existing notes so
+        // that the article's updatedAt
+        // value to "now" before this deleteMany takes place
+
+        var oneWeekPrev = moment().subtract(2,"minutes");
         console.log("twoMinutePrev: ", oneWeekPrev);
         // delete all articles that were updated in a time before 7 days ago.
-        // this includes articles that have notes stored if over a week old. - might need to change this.
-        // one what to change this is to automatically update the article's updatedAt
-        // value to "now" before this deleteMany takes place
+        // this includes articles that have notes stored if over a week old. 
         db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
             .then(function(dbDateDelete){
                 console.log("dbDate: ", dbDateDelete);
