@@ -104,6 +104,7 @@ module.exports = function(router) {
             .then(function(dbArticle) {
             // If successful, find an Article with the given id, send it back to the client
             res.json(dbArticle);
+            console.log("dbArticle from /articles/id: ", dbArticle);
             })
             .catch(function(err) {
             // but if an error occurred, send it to the client

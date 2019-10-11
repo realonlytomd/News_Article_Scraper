@@ -1,4 +1,6 @@
-$(document).ready(function() {
+
+
+//var moment = require("moment");
 //Perform the initial scrape, create and fill the database when app is run
 $.ajax({
   method: "GET",
@@ -23,13 +25,13 @@ function displayData() {
           method: "POST",
           url: "/articles/" + data[i]._id,
           data: {
-            // input updated character to title
-            title: data[i].note.title + " (updated)"
+            // change timestamp that the article is updated to "now", so that it's not deleted
+            updatedAt: moment().format()
           }
         })
-        .then(function(data) {
+        .then(function(dataUpdate) {
           // Log the response
-          console.log("data from posting a new Note: ", data);
+          console.log("data from posting a new Note: ", dataUpdate);
         });
 
         //****
@@ -98,34 +100,34 @@ $(document).on("click", "p", function() {
   $("#notes").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
-
+  console.log("thisId after clicking 'p': " + thisId);
   // Now make an ajax call for the Article
   $.ajax({
     method: "GET",
     url: "/articles/" + thisId
   })
     // With that done, add the note information to the page
-    .then(function(data) {
-      console.log("data from GET /articles+id", data);
+    .then(function(dataSaveP) {
+      console.log("dataSaveP from GET /articles+id", dataSaveP);
       // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      $("#notes").append("<h2>" + dataSaveP.title + "</h2>");
       // An input to enter a new note title
       $("#notes").append("<input id='titleinput' name='title' placeholder='Title'>");
       // A textarea to add a new note body
       $("#notes").append("<textarea id='bodyinput' name='body' placeholder='Contents'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='saveNote'>Save Note</button>");
+      $("#notes").append("<button dataSaveP-id='" + dataSaveP._id + "' id='saveNote'>Save Note</button>");
       // Here's a button to delete a note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='deleteNote'>Delete Note</button>");
+      $("#notes").append("<button dataSaveP-id='" + dataSaveP._id + "' id='deleteNote'>Delete Note</button>");
       // experiment
       // show the modal
       $("#noteModal").modal("show");
       // If there's already a note in the article
-      if (data.note) {
+      if (dataSaveP.note) {
         // Place the title of the note in the title input
-        $("#titleinput").val(data.note.title);
+        $("#titleinput").val(dataSaveP.note.title);
         // Place the body of the note in the body textarea
-        $("#bodyinput").val(data.note.body);
+        $("#bodyinput").val(dataSaveP.note.body);
       }
     });
 });
@@ -145,9 +147,9 @@ $(document).on("click", "#saveNote", function() {
       body: $("#bodyinput").val()
     }
   })
-  .then(function(data) {
+  .then(function(dataUpdate) {
     // Log the response
-    console.log("data from posting a new Note: ", data);
+    console.log("data from posting a new Note: ", dataUpdate);
     // Empty the notes section
     $("#notes").empty();
     $("#noteModal").modal("hide");
@@ -199,5 +201,4 @@ $(document).on("click", ".deleteArticle", function() {
       //without the recently deleted one.
      displayData();
     });
-});
 });
