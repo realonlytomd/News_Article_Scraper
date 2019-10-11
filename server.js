@@ -28,7 +28,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 // set up for deploying on heroku and developing local
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/kittens";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsReader";
 mongoose.connect(MONGODB_URI);
 
 // // Routes

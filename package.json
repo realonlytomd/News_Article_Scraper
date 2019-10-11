@@ -1,5 +1,5 @@
 {
-  "name": "kittens",
+  "name": "news_article_scraper",
   "version": "1.0.0",
   "description": "This app scrapes articles from The Verge, allows the user to make a note on individual\r articles, view those notes later, and then delete the notes or the articles if they choose.",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/realonlytomd/kittens.git"
+    "url": "git+https://github.com/realonlytomd/News_Article_Scraper.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/realonlytomd/kittens/issues"
+    "url": "https://github.com/realonlytomd/News_Article_Scraper/issues"
   },
-  "homepage": "https://github.com/realonlytomd/kittens#readme",
+  "homepage": "https://github.com/realonlytomd/News_Article_Scraper#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
