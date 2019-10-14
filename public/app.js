@@ -1,4 +1,4 @@
-
+$(document).ready(function(){
 
 //var moment = require("moment");
 //Perform the initial scrape, create and fill the database when app is run
@@ -10,42 +10,43 @@ $.ajax({
 // create function to display all the data on the page after retrieved from the db
 function displayData() {
     // Get the articles as a json
-  $.getJSON("/articles", function(data) {
+  $.getJSON("/articles", function(scrapeData) {
     // For each one
-    console.log("data returned from scrape:", data);
+    console.log("scrapeData returned from scrape:", scrapeData);
     // Display the information on the page
-    for (i = 0; i < data.length; i++) {
+    for (i = 0; i < scrapeData.length; i++) {
       // if a note for a particular article exists, change font color of title to green
       // and tell user they've previously added a note
-      if (data[i].note) {  // if a note exists on (this) article, call function that makes
+      if (scrapeData[i].note) {  // if a note exists on (this) article, call function that makes
         // a slight update to the note so that it's updatedAt value is changed (in save Note function),
         // or, change updatedAt value in article directly to "now" (in /articles function) (???)
         // ***  this is currently not correct!!!! but close
-        $.ajax({
-          method: "POST",
-          url: "/articles/" + data[i]._id,
-          data: {
-            // change timestamp that the article is updated to "now", so that it's not deleted
-            updatedAt: moment().format()
-          }
-        })
-        .then(function(dataUpdate) {
-          // Log the response
-          console.log("data from posting a new Note: ", dataUpdate);
-        });
+        // console.log("I'm in the if that there is a scrapeData[i].note!" + scrapeData[i].note);
+        // $.ajax({
+        //   method: "POST",
+        //   url: "/articles/" + scrapeData[i]._id,
+        //   data: {
+        //     // change timestamp that the article is updated to "now", so that it's not deleted
+        //     updatedAt: moment().format()
+        //   }
+        // })
+        // .then(function(dataUpdate) {
+        //   // Log the response
+        //   console.log("data from posting a new Note: ", dataUpdate);
+        // });
 
         //****
         $("#articles").append("<p style='color:green;' data-id='" + 
-          data[i]._id + "'>" + 
-          data[i].title + "  (You've made a Note!)</p><button data-id='" + 
-          data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-          data[i].link + "' target='_blank'>Go To Article</a></button>");
+          scrapeData[i]._id + "'>" + 
+          scrapeData[i].title + "  (You've made a Note!)</p><button data-id='" + 
+          scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+          scrapeData[i].link + "' target='_blank'>Go To Article</a></button>");
       } else {
         $("#articles").append("<p data-id='" + 
-        data[i]._id + "'>" + 
-        data[i].title + "</p><button data-id='" + 
-        data[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-        data[i].link + "' target='_blank'>Go To Article</a></button>");
+        scrapeData[i]._id + "'>" + 
+        scrapeData[i].title + "</p><button data-id='" + 
+        scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
+        scrapeData[i].link + "' target='_blank'>Go To Article</a></button>");
       }
     }
   });
@@ -116,9 +117,9 @@ $(document).on("click", "p", function() {
       // A textarea to add a new note body
       $("#notes").append("<textarea id='bodyinput' name='body' placeholder='Contents'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button dataSaveP-id='" + dataSaveP._id + "' id='saveNote'>Save Note</button>");
+      $("#notes").append("<button data-id='" + dataSaveP._id + "' id='saveNote'>Save Note</button>");
       // Here's a button to delete a note, with the id of the article saved to it
-      $("#notes").append("<button dataSaveP-id='" + dataSaveP._id + "' id='deleteNote'>Delete Note</button>");
+      $("#notes").append("<button data-id='" + dataSaveP._id + "' id='deleteNote'>Delete Note</button>");
       // experiment
       // show the modal
       $("#noteModal").modal("show");
@@ -147,9 +148,9 @@ $(document).on("click", "#saveNote", function() {
       body: $("#bodyinput").val()
     }
   })
-  .then(function(dataUpdate) {
+  .then(function(dataSaveNoteUpdate) {
     // Log the response
-    console.log("data from posting a new Note: ", dataUpdate);
+    console.log("data from posting a new Note: ", dataSaveNoteUpdate);
     // Empty the notes section
     $("#notes").empty();
     $("#noteModal").modal("hide");
@@ -201,4 +202,5 @@ $(document).on("click", ".deleteArticle", function() {
       //without the recently deleted one.
      displayData();
     });
+});
 });
