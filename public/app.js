@@ -18,7 +18,7 @@ function displayData() {
       // if a note for a particular article exists, change font color of title to green
       // and tell user they've previously added a note
       if (scrapeData[i].note) {  // if a note exists on (this) article, call function that makes
-        // a slight update to the note so that it's updatedAt value is changed (in save Note function),
+        // a slight update to the article so that it's updatedAt value is changed (in save Note function),
         // or, change updatedAt value in article directly to "now" (in /articles function) (???)
         // ***  this is currently not correct!!!! but close
         // console.log("I'm in the if that there is a scrapeData[i].note!" + scrapeData[i].note);

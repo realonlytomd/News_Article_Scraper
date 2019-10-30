@@ -72,14 +72,14 @@ module.exports = function(router) {
         // insert function to update pre-existing notes so
         // that the article's updatedAt
         // value to "now" before this deleteMany takes place
-        // var oneWeekPrev = moment().subtract(2,"minutes");
-        // console.log("twoMinutePrev: ", oneWeekPrev);
+        var oneWeekPrev = moment().subtract(2,"minutes");
+        console.log("twoMinutePrev: ", oneWeekPrev);
         // // delete all articles that were updated in a time before 7 days ago.
         // // this includes articles that have notes stored if over a week old. 
-        // db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
-        //     .then(function(dbDateDelete){
-        //         console.log("dbDateDelete: ", dbDateDelete);
-        //     });
+        db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
+            .then(function(dbDateDelete){
+            console.log("dbDateDelete: ", dbDateDelete);
+        });
             // It's ok to rescrape after deleted, as those articles (probably) won't
             // still be on the site, and consequently, won't be scraped again. 
         db.Article.find({})
