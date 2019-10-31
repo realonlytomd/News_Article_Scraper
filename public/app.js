@@ -87,12 +87,7 @@ function displayData() {
 //
 $(document).on("click", "#scrape", function() {
   $("#articles").empty();
-  $.ajax({
-    method: "GET",
-    url: "/scrape"
-  }).then (function() {
-    displayData();
-  });
+  displayData();
 });
 
 // When the title of an article (with a p tag) is clicked
