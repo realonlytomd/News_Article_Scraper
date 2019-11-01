@@ -69,10 +69,12 @@ module.exports = function(router) {
         // that are older than 1 week using the moment.js library
         // This is so the db doesn't continue to grow over time.
         //*
-        // insert function to update pre-existing notes so
+        // Insert function to update articles that have a note so
         // that the article's updatedAt
-        // value to "now" before this deleteMany takes place
-        var oneWeekPrev = moment().subtract(7,"days");
+        // value becomes "now" - before this deleteMany takes place.
+        // something like db.Article.findOneAndUpdate({ })
+        //*
+        var oneWeekPrev = moment().subtract(2, "minutes");
         console.log("oneWeekPrev: ", oneWeekPrev);
         // // delete all articles that were updated in a time before 7 days ago.
         // // this includes articles that have notes stored if over a week old. 
@@ -110,9 +112,25 @@ module.exports = function(router) {
             res.json(err);
             });
     });
+
+    // Route for getting a specific Article by id, and then update it's updatedAt
+    router.post("/articles/test/:id", function(req, res) {
+        // Using the id passed in the id parameter, and make a query that finds the matching one in the db
+        db.Article.findOneAndUpdate(req.updatedAt)
+                .then(function(dbArticle) {
+                // If successful, find an Article with the given id, send it back to the client
+                res.json(dbArticle);
+                console.log("dbArticle from POST /articles/test/id: ", dbArticle);
+                })
+                .catch(function(err) {
+                // but if an error occurred, send it to the client
+                res.json(err);
+                });
+        });
     
     // Route for saving and/or updating an Article's associated Note
     router.post("/articles/:id", function(req, res) {
+        console.log("in post: /articles:id ", req);
     // Create a new note and pass the req.body to the entry
         db.Note.create(req.body)
             .then(function(dbNote) {

@@ -11,29 +11,31 @@ $.ajax({
 function displayData() {
     // Get the articles as a json
   $.getJSON("/articles", function(scrapeData) {
+    console.log("scrapeData returned from db:", scrapeData);
     // For each one
-    console.log("scrapeData returned from scrape:", scrapeData);
     // Display the information on the page
     for (i = 0; i < scrapeData.length; i++) {
       // if a note for a particular article exists, change font color of title to green
       // and tell user they've previously added a note
       if (scrapeData[i].note) {  // if a note exists on (this) article, call function that makes
-        // a slight update to the article so that it's updatedAt value is changed (in save Note function),
+        // a slight update to the article so that it's updatedAt value is changed,
         // or, change updatedAt value in article directly to "now" (in /articles function) (???)
         // ***  this is currently not correct!!!! but close
-        // console.log("I'm in the if that there is a scrapeData[i].note!" + scrapeData[i].note);
-        // $.ajax({
-        //   method: "POST",
-        //   url: "/articles/" + scrapeData[i]._id,
-        //   data: {
-        //     // change timestamp that the article is updated to "now", so that it's not deleted
-        //     updatedAt: moment().format()
-        //   }
-        // })
-        // .then(function(dataUpdate) {
-        //   // Log the response
-        //   console.log("data from posting a new Note: ", dataUpdate);
-        // });
+        console.log("I'm in the - if there is a scrapeData[i].note!: " + scrapeData[i].note);
+        var now = moment().format();
+        console.log("now = " + now);
+        $.ajax({
+          method: "POST",
+          url: "/articles/test/" + scrapeData[i]._id,
+          data: {
+            // change timestamp that the article is updated to "now", so that it's not deleted
+            updatedAt: now
+          }
+        })
+        .then(function(dataUpdate) {
+          // Log the response
+          console.log("data from updating time on article: ", dataUpdate);
+        });
 
         //****
         $("#articles").append("<p style='color:green;' data-id='" + 
@@ -51,39 +53,6 @@ function displayData() {
     }
   });
 }
-
-// this is a function that ammends a note slightly if one exists when
-// the user lists the articles in the db. - (so that the article's updatedAt
-// is updated, and won't be deleted when the deleteMany is called)
-// When the Save Note button is clicked
-// function slightlyUpdateNote() {
-//   // Get the id associated with the article
-//   var thisId = data[i]._id;
-//   console.log("in slightlyUpdateNote function, thisId = ", thisId);
-//   // Run a POST request to change the note, using what's entered in the inputs
-//   $.ajax({
-//     method: "POST",
-//     url: "/articles/" + thisId,
-//     data: {
-//       // input updated character to title
-//       title: data[i].title + "updated"
-//     }
-//   })
-//   .then(function(data) {
-//     // Log the response
-//     console.log("data from posting a new Note: ", data);
-    
-//   });
-// }
-
-// this is the end of the slightly update note function
-
-//Re-Perform a scrape by clicking the List New Articles button
-//
-// * add later *
-// need to check which articles in the db already have a note, and
-// need to be updated (slightly), so that their updatedAt value
-// won't allow them to be deleted if over a week old.
 //
 $(document).on("click", "#scrape", function() {
   $("#articles").empty();
