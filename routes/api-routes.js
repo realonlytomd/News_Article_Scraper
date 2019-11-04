@@ -113,10 +113,11 @@ module.exports = function(router) {
             });
     });
 
-    // Route for getting a specific Article by id, and then update it's updatedAt
+    // Route for getting a specific Article by id, and then update it's title
     router.post("/articles/test/:id", function(req, res) {
         // Using the id passed in the id parameter, and make a query that finds the matching one in the db
-        db.Article.findOneAndUpdate(req.updatedAt)
+        console.log("inside POST /articles/test/id:, req.body: ", req.body);
+        db.Article.findOneAndUpdate(req.body.title)
                 .then(function(dbArticle) {
                 // If successful, find an Article with the given id, send it back to the client
                 res.json(dbArticle);
@@ -130,7 +131,7 @@ module.exports = function(router) {
     
     // Route for saving and/or updating an Article's associated Note
     router.post("/articles/:id", function(req, res) {
-        console.log("in post: /articles:id ", req);
+        console.log("in post: /articles:id, req.body: ", req.body);
     // Create a new note and pass the req.body to the entry
         db.Note.create(req.body)
             .then(function(dbNote) {

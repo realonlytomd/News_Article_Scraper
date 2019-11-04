@@ -24,17 +24,19 @@ function displayData() {
         console.log("I'm in the - if there is a scrapeData[i].note!: " + scrapeData[i].note);
         var now = moment().format();
         console.log("now = " + now);
+        console.log("scrapeData[i], i = ",i);
+        console.log("srapeData[i], scrapeData[i].title = ", scrapeData[i].title);
         $.ajax({
           method: "POST",
           url: "/articles/test/" + scrapeData[i]._id,
           data: {
             // change timestamp that the article is updated to "now", so that it's not deleted
-            updatedAt: now
+            title: scrapeData[i].title + " (updated)"
           }
         })
         .then(function(dataUpdate) {
           // Log the response
-          console.log("data from updating time on article: ", dataUpdate);
+          console.log("data from updating title on article: ", dataUpdate);
         });
 
         //****
