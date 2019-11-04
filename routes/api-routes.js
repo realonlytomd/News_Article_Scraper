@@ -117,7 +117,7 @@ module.exports = function(router) {
     router.post("/articles/test/:id", function(req, res) {
         // Using the id passed in the id parameter, and make a query that finds the matching one in the db
         console.log("inside POST /articles/test/id:, req.body: ", req.body);
-        db.Article.findOneAndUpdate(req.body.title)
+        db.Article.findOneAndUpdate({ _id: req.body._id }, { title: req.body.title }, { returnNewDocument: true })
                 .then(function(dbArticle) {
                 // If successful, find an Article with the given id, send it back to the client
                 res.json(dbArticle);
@@ -146,6 +146,7 @@ module.exports = function(router) {
             .then(function(dbArticle) {
             // If successful in updating an Article, send it back to the client
             res.json(dbArticle);
+            console.log("dbArticle from POST /articles/id: ", dbArticle);
             })
             .catch(function(err) {
             // If an error occurred, send it to the client

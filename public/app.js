@@ -18,19 +18,18 @@ function displayData() {
       // if a note for a particular article exists, change font color of title to green
       // and tell user they've previously added a note
       if (scrapeData[i].note) {  // if a note exists on (this) article, call function that makes
-        // a slight update to the article so that it's updatedAt value is changed,
-        // or, change updatedAt value in article directly to "now" (in /articles function) (???)
-        // ***  this is currently not correct!!!! but close
+        // a slight update to the article's title so that it's updatedAt value is changed,
         console.log("I'm in the - if there is a scrapeData[i].note!: " + scrapeData[i].note);
-        var now = moment().format();
-        console.log("now = " + now);
+        // var now = moment().format();
+        // console.log("now = " + now);
         console.log("scrapeData[i], i = ",i);
         console.log("srapeData[i], scrapeData[i].title = ", scrapeData[i].title);
         $.ajax({
           method: "POST",
           url: "/articles/test/" + scrapeData[i]._id,
           data: {
-            // change timestamp that the article is updated to "now", so that it's not deleted
+            // change title slightly so the updatedAt is current, and the article won't be deleted
+            _id: scrapeData[i]._id,
             title: scrapeData[i].title + " (updated)"
           }
         })
