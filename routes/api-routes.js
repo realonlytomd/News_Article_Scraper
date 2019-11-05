@@ -32,7 +32,7 @@ module.exports = function(router) {
                 result.link = $(this)
                 .children("a")
                 .attr("href");
-                result.number = 1;
+                result.update = 1;
                 //console.log("result.link: " + result.link);
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
@@ -76,19 +76,6 @@ module.exports = function(router) {
         // something like db.Article.findOneAndUpdate({ })
         // I need to add another "column" to the db to track (and change) the number
         // of times the article is updated. It's called update
-        //*
-        //
-        //*
-        var oneWeekPrev = moment().subtract(2, "minutes");
-        console.log("oneWeekPrev: ", oneWeekPrev);
-        // // delete all articles that were updated in a time before 7 days ago.
-        // // this includes articles that have notes stored if over a week old. 
-        db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
-            .then(function(dbDateDelete){
-            console.log("dbDateDelete: ", dbDateDelete);
-        });
-            // It's ok to rescrape after deleted, as those articles (probably) won't
-            // still be on the site, and consequently, won't be scraped again. 
         db.Article.find({})
             .then(function(dbArticle) {
             // If that worked, send them back to the client
@@ -99,6 +86,17 @@ module.exports = function(router) {
             // However, if an error occurred, send it to the client
             res.json(err);
             });
+
+        var oneWeekPrev = moment().subtract(2, "minutes");
+        console.log("oneWeekPrev: ", oneWeekPrev);
+        // // delete all articles that were updated in a time before 7 days ago.
+        // // this includes articles that have notes stored if over a week old. 
+        db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
+            .then(function(dbDateDelete){
+            console.log("dbDateDelete: ", dbDateDelete);
+        });
+            // It's ok to rescrape after deleted, as those articles (probably) won't
+            // still be on the site, and consequently, won't be scraped again. 
     });
     
     // Route for getting a specific Article by id, and then populate it with it's note
@@ -122,7 +120,7 @@ module.exports = function(router) {
     router.post("/articles/test/:id", function(req, res) {
         // Using the id passed in the id parameter, and make a query that finds the matching one in the db
         console.log("inside POST /articles/test/id:, req.body: ", req.body);
-        db.Article.findOneAndUpdate({ _id: req.body._id }, { title: req.body.title }, { returnNewDocument: true })
+        db.Article.findOneAndUpdate({ _id: req.body._id }, { update: req.body.update }, { returnNewDocument: true })
                 .then(function(dbArticle) {
                 // If successful, find an Article with the given id, send it back to the client
                 res.json(dbArticle);

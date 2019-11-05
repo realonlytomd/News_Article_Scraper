@@ -20,7 +20,7 @@ var ArticleSchema = new Schema({
   // week old. It's automatically increased if a Note exists on the article
   update: {
     type: Number,
-    require: true
+    required: true
   },
   // `note` is an object that stores a Note id
   // The ref property links the ObjectId to the Note model
