@@ -5,15 +5,22 @@ var Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new UserSchema object
 var ArticleSchema = new Schema({
-  // `title` is required and of type String
+  // `title` of article is required and of type String
   title: {
     type: String,
     required: true
   },
-  // `link` is required and of type String
+  // `link` to online article is required and of type String
   link: {
     type: String,
     required: true
+  },
+  // 'update' is an integer showing number of times the article 
+  // has been updated - so that's it's not deleted if over a 
+  // week old. It's automatically increased if a Note exists on the article
+  update: {
+    type: Number,
+    require: true
   },
   // `note` is an object that stores a Note id
   // The ref property links the ObjectId to the Note model

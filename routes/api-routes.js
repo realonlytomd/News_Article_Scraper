@@ -32,6 +32,7 @@ module.exports = function(router) {
                 result.link = $(this)
                 .children("a")
                 .attr("href");
+                result.number = 1;
                 //console.log("result.link: " + result.link);
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
@@ -67,12 +68,16 @@ module.exports = function(router) {
     router.get("/articles", function(req, res) {
         //Here insert a function to delete articles in the db
         // that are older than 1 week using the moment.js library
-        // This is so the db doesn't continue to grow over time.
+        // This is so the db doesn't continue to grow over time. - done
         //*
-        // Insert function to update articles that have a note so
+        // But first, insert function to update articles that have a note so
         // that the article's updatedAt
         // value becomes "now" - before this deleteMany takes place.
         // something like db.Article.findOneAndUpdate({ })
+        // I need to add another "column" to the db to track (and change) the number
+        // of times the article is updated. It's called update
+        //*
+        //
         //*
         var oneWeekPrev = moment().subtract(2, "minutes");
         console.log("oneWeekPrev: ", oneWeekPrev);

@@ -24,19 +24,19 @@ function displayData() {
         // console.log("now = " + now);
         console.log("scrapeData[i], i = ",i);
         console.log("srapeData[i], scrapeData[i].title = ", scrapeData[i].title);
-        $.ajax({
-          method: "POST",
-          url: "/articles/test/" + scrapeData[i]._id,
-          data: {
-            // change title slightly so the updatedAt is current, and the article won't be deleted
-            _id: scrapeData[i]._id,
-            title: scrapeData[i].title + " (updated)"
-          }
-        })
-        .then(function(dataUpdate) {
-          // Log the response
-          console.log("data from updating title on article: ", dataUpdate);
-        });
+        // $.ajax({
+        //   method: "POST",
+        //   url: "/articles/test/" + scrapeData[i]._id,
+        //   data: {
+        //     // change title slightly so the updatedAt is current, and the article won't be deleted
+        //     _id: scrapeData[i]._id,
+        //     title: scrapeData[i].title + " (updated)"
+        //   }
+        // })
+        // .then(function(dataUpdate) {
+        //   // Log the response
+        //   console.log("data from updating title on article: ", dataUpdate);
+        // });
 
         //****
         $("#articles").append("<p style='color:green;' data-id='" + 
