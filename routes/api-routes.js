@@ -121,6 +121,7 @@ module.exports = function(router) {
     // Create a new note and pass the req.body to the entry
         db.Note.create(req.body)
             .then(function(dbNote) {
+                console.log("saving a note: dbNote: ", dbNote);
         // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. 
         // Update the Article to be associated with the new Note
         // { new: true } tells the query that we want it to return the updated User,
@@ -132,6 +133,7 @@ module.exports = function(router) {
                 );
             })
             .then(function(dbArticle) {
+                console.log(".then after create note, dbArticle: ", dbArticle);
             // If successful in updating an Article, send it back to the client
                 res.json(dbArticle);
             })
@@ -141,11 +143,33 @@ module.exports = function(router) {
             });
     });
     
-    // Route for deleting an Article's associated Note
+    // Route for deleting an Article's associate Note
+    router.delete("/articles/another/:id", function(req, res) {
+        console.log("in articles/another, req.params: ", req.params);
+        // delete the whole note
+        db.Note.deleteOne(
+            { _id: req.params.id }
+        )
+        .then(function(dbNote) {
+            //  
+            console.log("delete a Note, dbNote: ", dbNote);
+            res.json(dbNote);
+        })
+        .catch(function(err) {
+            // but if an error occurred, send it to the client
+            res.json(err);
+        });
+    })
+
+    // Route for deleting an Article's reference to it's associated Note
     router.delete("/articles/:id", function(req, res) {
+        console.log("delete a note: req.params: ", req.params);
     // delete the note and pass the req.body to the entry
-        db.Note.deleteOne({ _id: req.params.id })
+        db.Note.deleteOne(
+            { _id: req.params.id }
+            )
             .then(function(dbNote) {
+                console.log(".then db.Note.deleteOne, dbNote: ", dbNote);
             // If a Note was deleted successfully, 
             // the following is much like saving a note
                 return db.Article.findOneAndUpdate(
@@ -155,6 +179,7 @@ module.exports = function(router) {
                 );
             })
             .then(function(dbArticle) {
+                console.log("delete Note after .then dbArticle: ", dbArticle);
             // If we were able to successfully update an Article, send it back to the client
                 res.json(dbArticle);
             })

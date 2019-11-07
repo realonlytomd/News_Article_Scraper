@@ -70,8 +70,8 @@ $(document).ready(function(){
     .then(function(dbDateDelete) {
       console.log("dbDateDelete: ", dbDateDelete);
       $("#sureModal").modal("hide");
-    $("#articles").empty();
-    displayData();
+      $("#articles").empty();
+      displayData();
     });
   });
 
@@ -96,12 +96,12 @@ $(document).ready(function(){
         $("#notes").append("<textarea id='bodyinput' name='body' placeholder='Contents'></textarea>");
         // A button to submit a new note, with the id of the article saved to it
         $("#notes").append("<button data-id='" + dataSaveP._id + "' id='saveNote'>Save Note</button>");
-        // Here's a button to delete a note, with the id of the article saved to it
-        $("#notes").append("<button data-id='" + dataSaveP._id + "' id='deleteNote'>Delete Note</button>");
         // show the modal
         $("#noteModal").modal("show");
         // If there's already a note in the article, show the info.
         if (dataSaveP.note) {
+          // Here's a button to delete a note, with the id of the article saved to it and the id of the note.
+          $("#notes").append("<button data-idNote='" + dataSaveP.note._id + "' data-id='" + dataSaveP._id + "' id='deleteNote'>Delete Note</button>");
           // Place the title of the note in the title input
           $("#titleinput").val(dataSaveP.note.title);
           // Place the body of the note in the body textarea
@@ -125,6 +125,8 @@ $(document).ready(function(){
       }
     })
     .then(function(dataSaveNoteUpdate) {
+      console.log("saving a note: dataSaveNoteUpdate: ", dataSaveNoteUpdate);
+      console.log("note Id: ", dataSaveNoteUpdate.note);
       // Log the response
       // Empty the notes section
       $("#notes").empty();
@@ -142,13 +144,25 @@ $(document).ready(function(){
   $(document).on("click", "#deleteNote", function() {
     // Grab the id associated with the article
     var thisId = $(this).attr("data-id");
-    // Run a DELETE request to delete the note
+    var thisNoteId = $(this).attr("data-idNote");
+    console.log("thisID: "  + thisId + " and thisNoteId: " + thisNoteId);
+       
+        // Run a DELETE request to delete the reference to the article's note
     $.ajax({
       method: "DELETE",
       url: "/articles/" + thisId
     })
       // still need to empty the notes div as before
-      .then(function() {
+      .then (function(dbArticle) {
+        console.log("dbArticle after DELETE/articles/id: ", dbArticle);
+         // Run a DELETE request to delete the note
+        $.ajax({
+          method: "DELETE",
+          url: "/articles/another/" + thisNoteId
+        })
+          .then (function(dbNote) {
+            console.log("dbNote after delete: ", dbNote);
+          });
         $("#notes").empty();
         $("#noteModal").modal("hide");
         $("#articles").empty();
