@@ -57,17 +57,22 @@ $(document).ready(function(){
   $(document).on("click", "#deleteOld", function() {
     $("#articles").empty();
     displayData();
+    $("#sureModal").modal("show");
+  });
+
+  $(document).on("click", "#yesDelete", function() {
     $.ajax({
       method: "DELETE",
       url: "/articles/deleteold"
     })
         //repopulate with the current list of articles
         //without the recently deleted ones.
-      .then(function(dbDateDelete) {
-        console.log("dbDateDelete: ", dbDateDelete);
-        $("#articles").empty();
-        displayData();
-      });
+    .then(function(dbDateDelete) {
+      console.log("dbDateDelete: ", dbDateDelete);
+      $("#sureModal").modal("hide");
+    $("#articles").empty();
+    displayData();
+    });
   });
 
   // When the title of an article (with a p tag) is clicked

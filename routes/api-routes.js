@@ -67,7 +67,7 @@ module.exports = function(router) {
     });
 
     // Route for deleting articles over a week old.
-    router.delete("/articles/deleteold", function() {
+    router.delete("/articles/deleteold", function(req, res) {
         var oneWeekPrev = moment().subtract(2, "minutes");
         console.log("oneWeekPrev: ", oneWeekPrev);
         // // delete all articles that were updated in a time before 7 days ago.

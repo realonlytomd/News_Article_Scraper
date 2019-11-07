@@ -21,19 +21,34 @@
       <div class="row text-center">
         <div id="articles"></div>
       </div>
-        <!-- Modal for Notes for particular article -->
-      <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div id="notes"></div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" data-dismiss="modal">Close</button>
-              </div>
+      <!-- Modal to make sure User wants to delete old Articles -->
+      <div class="modal fade" id="sureModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <h1>Are you sure?</h1>
+              <button id="yesDelete">Yes!</button>
+              <button type="button" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
+      </div>
+        <!-- Modal for Notes for particular article -->
+      <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div id="notes"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
           <!-- End of Bootstrap modal code -->
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
