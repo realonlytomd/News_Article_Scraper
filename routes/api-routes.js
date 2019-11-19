@@ -68,12 +68,12 @@ module.exports = function(router) {
 
     // Route for deleting articles over a week old.
     router.delete("/articles/deleteold", function(req, res) {
-        var oneWeekPrev = moment().subtract(7, "days");
-        console.log("oneWeekPrev: ", oneWeekPrev);
+        var oneDayPrev = moment().subtract(1, "days");
+        console.log("oneWeekPrev: ", oneDayPrev);
         // // delete all articles that were updated in a time before 7 days ago.
         // // this dles not include articles that have notes stored, since they
         // are updated with every display of data. 
-        db.Article.deleteMany({ updatedAt: { $lt: oneWeekPrev } })
+        db.Article.deleteMany({ updatedAt: { $lt: oneDayPrev } })
             .then(function(dbDateDelete){
             console.log("dbDateDelete: ", dbDateDelete);
             res.json(dbDateDelete);
