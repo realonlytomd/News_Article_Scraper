@@ -32,13 +32,13 @@ $(document).ready(function(){
             console.log("dataUpdate: ", dataUpdate);
           });
           //****
-          $("#articles").append("<p style='color:green;' data-id='" + 
+          $("#articles").prepend("<p style='color:green;' data-id='" + 
             scrapeData[i]._id + "'>" + 
             scrapeData[i].title + "  (You've made a Note!)</p><button data-id='" + 
             scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
             scrapeData[i].link + "' target='_blank'>Go To Article</a></button>");
         } else {
-          $("#articles").append("<p data-id='" + 
+          $("#articles").prepend("<p data-id='" + 
           scrapeData[i]._id + "'>" + 
           scrapeData[i].title + "</p><button data-id='" + 
           scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
