@@ -48,19 +48,22 @@ $(document).ready(function(){
     });
   }
   // the list articles button merely gets all the entries from the db
-  $(document).on("click", "#scrape", function() {
+  $(document).on("click", "#scrape", function(event) {
+    event.preventDefault();
     $("#articles").empty();
     displayData();
   });
   // the delete old button does a relist (to update articles with notes), then calls the api
   // to delete all the old articles at once.
-  $(document).on("click", "#deleteOld", function() {
+  $(document).on("click", "#deleteOld", function(event) {
+    event.preventDefault();
     $("#articles").empty();
     displayData();
     $("#sureModal").modal("show");
   });
 
-  $(document).on("click", "#yesDelete", function() {
+  $(document).on("click", "#yesDelete", function(event) {
+    event.preventDefault();
     $.ajax({
       method: "DELETE",
       url: "/articles/deleteold"
@@ -76,7 +79,8 @@ $(document).ready(function(){
   });
 
   // When the title of an article (with a p tag) is clicked
-  $(document).on("click", "p", function() {
+  $(document).on("click", "p", function(event) {
+    event.preventDefault();
     // Empty the notes from the note section
     $("#notes").empty();
     // Save the id from the p tag
@@ -111,7 +115,8 @@ $(document).ready(function(){
   });
 
   // When the Save Note button is clicked
-  $(document).on("click", "#saveNote", function() {
+  $(document).on("click", "#saveNote", function(event) {
+    event.preventDefault();
     // Get the id associated with the article
     var thisId = $(this).attr("data-id");
     // Run a POST request to change the note, using what's entered in the inputs
@@ -141,7 +146,8 @@ $(document).ready(function(){
   });
 
   // When you click the Delete Note button
-  $(document).on("click", "#deleteNote", function() {
+  $(document).on("click", "#deleteNote", function(event) {
+    event.preventDefault();
     // Grab the id associated with the article
     var thisId = $(this).attr("data-id");
     var thisNoteId = $(this).attr("data-idNote");
@@ -175,7 +181,8 @@ $(document).ready(function(){
   });
 
   // When the Delete Article button is clicked
-  $(document).on("click", ".deleteArticle", function() {
+  $(document).on("click", ".deleteArticle", function(event) {
+    event.preventDefault();
     //empty out the articles section in order to repopulate with the current list of articles
     //after the chosen one is deleted.
     $("#articles").empty();
