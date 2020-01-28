@@ -89,7 +89,7 @@ module.exports = function(router) {
             .then(function(dbArticle) {
             // If successful, find an Article with the given id, send it back to the client
             res.json(dbArticle);
-            console.log("dbArticle from /articles/id: ", dbArticle);
+            //console.log("JUST POPULLATE - dbArticle from /articles/id: ", dbArticle);
             })
             .catch(function(err) {
             // but if an error occurred, send it to the client
@@ -121,7 +121,7 @@ module.exports = function(router) {
     // Create a new note and pass the req.body to the entry
         db.Note.create(req.body)
             .then(function(dbNote) {
-                console.log("saving a note: dbNote: ", dbNote);
+               // console.log("CREATING THE NEW NOTE - dbNote: ", dbNote);
         // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. 
         // Update the Article to be associated with the new Note
         // { new: true } tells the query that we want it to return the updated User,
@@ -133,7 +133,7 @@ module.exports = function(router) {
                 );
             })
             .then(function(dbArticle) {
-                console.log(".then after create note, dbArticle: ", dbArticle);
+                // console.log("AFTER UPDATING THE ARTICLE WITH NEW NOTE- dbArticle: ", dbArticle);
             // If successful in updating an Article, send it back to the client
                 res.json(dbArticle);
             })
