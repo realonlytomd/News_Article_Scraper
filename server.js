@@ -28,8 +28,23 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 // set up for deploying on heroku and developing local
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsReader";
-mongoose.connect(MONGODB_URI);
+// set up for deploying on heroku and developing local
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect("mongodb://localhost:27017/newsReader", { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+  }, function(err){
+    if(err){
+    console.log(err);
+  } else {
+    console.log("mongoose connection is successful on: " + "mongodb://localhost:27017/newsReader");
+  }
+ });
+}
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsReader";
+// mongoose.connect(MONGODB_URI);
 
 // // Routes
 require("./routes/api-routes.js")(app);
