@@ -32,17 +32,21 @@ $(document).ready(function(){
             console.log("dataUpdate: ", dataUpdate);
           });
           //****
-          $("#articles").prepend("<p style='color:green;' data-id='" + 
-            scrapeData[i]._id + "'>" + 
-            scrapeData[i].title + "  (You've made a Note!)</p><button data-id='" + 
-            scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-            scrapeData[i].link + "' target='_blank'>Go To Article</a></button>");
+          $("#articles").prepend("<p style='color:green;'><a href='" + 
+          scrapeData[i].link + "' target='_blank'>" + 
+          scrapeData[i].title + "</a>  (You've made a Note!)</p>" +
+          "<button data-id='" + 
+          scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button>" +
+          "<button data-id='" + 
+          scrapeData[i]._id + "' class='makeNote'>See Note</button>");
         } else {
-          $("#articles").prepend("<p data-id='" + 
-          scrapeData[i]._id + "'>" + 
-          scrapeData[i].title + "</p><button data-id='" + 
-          scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button><button><a href='" + 
-          scrapeData[i].link + "' target='_blank'>Go To Article</a></button>");
+          $("#articles").prepend("<p><a href='" + 
+          scrapeData[i].link + "' target='_blank'>" + 
+          scrapeData[i].title + "</a></p>" +
+          "<button data-id='" + 
+          scrapeData[i]._id + "' class='deleteArticle'>Delete Article</button>" +
+          "<button data-id='" + 
+          scrapeData[i]._id + "' class='makeNote'>Save Note</button>");
         }
       }
     });
@@ -79,7 +83,7 @@ $(document).ready(function(){
   });
 
   // When the title of an article (with a p tag) is clicked
-  $(document).on("click", "p", function(event) {
+  $(document).on("click", ".makeNote", function(event) {
     event.preventDefault();
     // Empty the notes from the note section
     $("#notes").empty();
