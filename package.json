@@ -23,8 +23,8 @@
     "cheerio-advanced-selectors": "^2.0.1",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.3",
-    "moment": "^2.24.0",
-    "mongoose": "^5.9.7",
+    "moment": "^2.27.0",
+    "mongoose": "^5.10.0",
     "morgan": "^1.10.0",
     "request": "^2.88.2"
   }
