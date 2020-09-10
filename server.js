@@ -29,8 +29,8 @@ app.use(express.static("public"));
 mongoose.Promise = Promise;
 // set up for deploying on heroku and developing local
 // set up for deploying on heroku and developing local
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI);
+if (process.env.DB_URI) {
+  mongoose.connect(process.env.DB_URI);
 } else {
   mongoose.connect("mongodb://localhost:27017/newsReader", { 
     useNewUrlParser: true, 

@@ -82,7 +82,7 @@ $(document).ready(function(){
     });
   });
 
-  // When the title of an article (with a p tag) is clicked
+  // When the Save Note button is clicked
   $(document).on("click", ".makeNote", function(event) {
     event.preventDefault();
     // Empty the notes from the note section
