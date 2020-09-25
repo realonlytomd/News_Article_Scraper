@@ -165,6 +165,7 @@ module.exports = function(router) {
     router.delete("/articles/:id", function(req, res) {
         console.log("delete a note: req.params: ", req.params);
     // delete the note and pass the req.body to the entry - WHY AM I DOING THIS?
+    // seems I want to write over the current reference with null...hmmm.
         db.Note.deleteOne(
             { _id: req.params.id }
             )
