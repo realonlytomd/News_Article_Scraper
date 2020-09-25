@@ -66,7 +66,7 @@ module.exports = function(router) {
             });
     });
 
-    // Route for deleting articles over a week old.
+    // Route for deleting articles over 1 day old.
     router.delete("/articles/deleteold", function(req, res) {
         var oneDayPrev = moment().subtract(1, "days");
         console.log("oneWeekPrev: ", oneDayPrev);
@@ -164,7 +164,7 @@ module.exports = function(router) {
     // Route for deleting an Article's reference to it's associated Note
     router.delete("/articles/:id", function(req, res) {
         console.log("delete a note: req.params: ", req.params);
-    // delete the note and pass the req.body to the entry
+    // delete the note and pass the req.body to the entry - WHY AM I DOING THIS?
         db.Note.deleteOne(
             { _id: req.params.id }
             )
