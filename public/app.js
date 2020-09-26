@@ -159,12 +159,12 @@ $(document).ready(function(){
        
         // Run a DELETE request to delete the reference to the article's note
     $.ajax({
-      method: "DELETE",
-      url: "/articles/" + thisId
+      method: "POST",
+      url: "/articles/overwrite/" + thisId
     })
       // still need to empty the notes div as before
       .then (function(dbArticle) {
-        console.log("dbArticle after DELETE/articles/id: ", dbArticle);
+        console.log("dbArticle after POST/articles/overwrite/id: ", dbArticle);
          // Run a DELETE request to delete the note
         $.ajax({
           method: "DELETE",

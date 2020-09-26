@@ -162,28 +162,31 @@ module.exports = function(router) {
     })
 
     // Route for deleting an Article's reference to it's associated Note
-    router.delete("/articles/:id", function(req, res) {
-        console.log("delete a note: req.params: ", req.params);
+    router.post("/articles/overwrite/:id", function(req, res) {
+        console.log("overwrite an article's note reference: req.params.id: ", req.params.id);
     // delete the note and pass the req.body to the entry - WHY AM I DOING THIS?
     // seems I want to write over the current reference with null...hmmm.
-        db.Note.deleteOne(
-            { _id: req.params.id }
-            )
-            .then(function(dbNote) {
-                console.log(".then db.Note.deleteOne, dbNote: ", dbNote);
+    db.Article.findOneAndUpdate(
+        { _id: req.params.id },
+        { note: null },
+        { new: true }
+    )
+            .then(function(dbArticle) {
+                console.log("after .then db.Article.findOneAndUpdate note to null, dbArticle: ", dbArticle);
             // If a Note was deleted successfully, 
             // the following is much like saving a note
-                return db.Article.findOneAndUpdate(
-                    { _id: req.params.id }, 
-                    { note: dbNote._id }, 
-                    { new: true }
-                );
-            })
-            .then(function(dbArticle) {
-                console.log("delete Note after .then dbArticle: ", dbArticle);
-            // If we were able to successfully update an Article, send it back to the client
+                // return db.Article.findOneAndUpdate(
+                //     { _id: req.params.id }, 
+                //     { note: dbNote._id }, 
+                //     { new: true }
+                // );
                 res.json(dbArticle);
             })
+            // .then(function(dbArticle) {
+            //     console.log("delete Note after .then dbArticle: ", dbArticle);
+            // // If we were able to successfully update an Article, send it back to the client
+            //     res.json(dbArticle);
+            // })
             .catch(function(err) {
             // If an error occurred, send it to the client
                 res.json(err);

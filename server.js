@@ -34,7 +34,8 @@ if (process.env.DB_URI) {
 } else {
   mongoose.connect("mongodb://localhost:27017/newsReader", { 
     useNewUrlParser: true, 
-    useUnifiedTopology: true 
+    useUnifiedTopology: true,
+    useFindAndModify: false
   }, function(err){
     if(err){
     console.log(err);
