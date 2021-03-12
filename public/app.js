@@ -58,7 +58,7 @@ $(document).ready(function(){
     displayData();
   });
   // the delete old button does a relist (to update articles with notes), then calls the api
-  // to delete all the old articles at once.
+  // to delete all the old articles at once
   $(document).on("click", "#deleteOld", function(event) {
     event.preventDefault();
     $("#articles").empty();
