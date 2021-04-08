@@ -2,7 +2,7 @@
   "name": "news_article_scraper",
   "version": "1.0.0",
   "description": "This app scrapes articles from The Verge, allows the user to make a note on individual\r articles, view those notes later, and then delete the notes or the articles if they choose.",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
