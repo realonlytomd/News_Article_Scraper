@@ -47,7 +47,7 @@ if (process.env.DB_URI) {
 // var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsReader";
 // mongoose.connect(MONGODB_URI);
 
-// // Routes
+//  Routes
 require("./routes/api-routes.js")(app);
 
 // Start the server
