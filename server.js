@@ -28,7 +28,6 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 // set up for deploying on heroku and developing local
-// set up for deploying on heroku and developing local
 if (process.env.DB_URI) {
   mongoose.connect(process.env.DB_URI);
 } else {
