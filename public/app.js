@@ -123,7 +123,7 @@ $(document).ready(function(){
     event.preventDefault();
     // Get the id associated with the article
     var thisId = $(this).attr("data-id");
-    // Run a POST request to change the note, using what's entered in the inputs
+    //Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
       method: "POST",
       url: "/articles/" + thisId,
