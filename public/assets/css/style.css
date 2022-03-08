@@ -2,7 +2,8 @@ body {
     /* background-image: url("../img/cityback.jpg");
     background-repeat: no-repeat;
     background-size: cover; */
-    background-color: aliceblue;
+    background-color: #A5BECF;
+    background-image: linear-gradient(0deg, #A5BECF 0%, #668BC4 50%, #A5BECF 100%);
 }
 
 p {
