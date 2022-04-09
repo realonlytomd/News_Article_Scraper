@@ -22,7 +22,7 @@
     "cheerio": "^1.0.0-rc.10",
     "cheerio-advanced-selectors": "^2.0.1",
     "express": "^4.17.3",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "mongoose": "^5.13.14",
     "morgan": "^1.10.0"
   }
