@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   //Perform the initial scrape, create and fill the database when app is run
-  // someday add CNET, and other tech sources hopefully
+  // someday add CNET, and other tech sources
   $.ajax({
     method: "GET",
     url: "/scrape"
