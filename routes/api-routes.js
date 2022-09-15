@@ -12,7 +12,8 @@ module.exports = function(router) {
         axios.get("https://www.theverge.com/tech").then(function(response) {
             // Then, load that into cheerio and save it to $ for a shorthand selector
             var $ = cheerio.load(response.data);
-            $("h2.mb-8").each(function(i, element) {
+            // the h2 class needs to be found that just finds titles
+            $("h2.font-bold").each(function(i, element) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
