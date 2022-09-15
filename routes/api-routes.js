@@ -9,10 +9,10 @@ module.exports = function(router) {
     // the GET route for scraping The Verge's website
     router.get("/scrape", function(req, res) {
         // First, grab the body of the html of the site with request
-        axios.get("https://www.theverge.com/").then(function(response) {
+        axios.get("https://www.theverge.com/tech").then(function(response) {
             // Then, load that into cheerio and save it to $ for a shorthand selector
             var $ = cheerio.load(response.data);
-            $("h2.c-entry-box--compact__title").each(function(i, element) {
+            $("h2.mb-8").each(function(i, element) {
                 // Save an empty result object outside of functions that assign different
                 // elements of result object
                 var result = {};
@@ -20,9 +20,10 @@ module.exports = function(router) {
                 .children("a")
                 .text()
                 .trim();
-                result.link = $(this)
+                result.link = "https://www.theverge.com" + $(this)
                 .children("a")
                 .attr("href");
+                console.log("result: ", result);
                 // the update is used to slightly change the article in the db so it's not
                 // deleted as an old article.
                 result.update = 1;
@@ -36,7 +37,7 @@ module.exports = function(router) {
                     } else {
                         db.Article.create(result)
                         .then(function(dbArticle) {
-                        // View the added result in the console
+                        // log dbArticle to view the added result in the console
                         })
                         .catch(function(err) {
                         // If an error occurred, send it to the client
@@ -69,7 +70,7 @@ module.exports = function(router) {
     // Route for deleting articles over 1 day old.
     router.delete("/articles/deleteold", function(req, res) {
         var oneDayPrev = moment().subtract(1, "days");
-        console.log("oneWeekPrev: ", oneDayPrev);
+        console.log("oneDayPrev: ", oneDayPrev);
         // // delete all articles that were updated in a time before 7 days ago.
         // // this dles not include articles that have notes stored, since they
         // are updated with every display of data. 
