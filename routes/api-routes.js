@@ -31,6 +31,7 @@ module.exports = function(router) {
             // Create a new Article in the db using the `result` object built from scraping
             // But only create the new Article in the db if it doesn't already exist
             // This if statement checks to see if the title already is in the db
+                if (result.title !== "") {
                 db.Article.findOne({ title: result.title })   
                     .then(function(prevArticles) {
                     if (prevArticles) {
@@ -50,6 +51,7 @@ module.exports = function(router) {
                         // However, if an error occurred, send it to the client
                         res.json(err);
                     }); // this completes the creation of the db function inside the test function
+                }  
             }); // this completes the assigning of elements that have been scraped to the result object
         }); // this completes the axios.get function
         // If successful, send a message to the client
