@@ -24,7 +24,7 @@ module.exports = function(router) {
                 result.link = "https://www.theverge.com" + $(this)
                 .children("a")
                 .attr("href");
-                console.log("result: ", result);
+                // console.log("result: ", result);
                 // the update is used to slightly change the article in the db so it's not
                 // deleted as an old article.
                 result.update = 1;
